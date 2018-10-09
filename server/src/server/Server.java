@@ -17,7 +17,7 @@ public class Server {
   public void run(InetSocketAddress inetSocketAddress) throws IOException {
     HttpServer httpServer = HttpServer.create(inetSocketAddress, 0);
 
-    httpServer.createContext("/", new HomeHandler());
+    httpServer.createContext("/", new HomeHandler(quizServer));
     httpServer.createContext("/register", new RegisterUserHandler(quizServer));
     httpServer.createContext("/delete", new DeleteUserHandler(quizServer));
     httpServer.createContext("/have_questions", new HaveQuestionsHandler(quizServer));

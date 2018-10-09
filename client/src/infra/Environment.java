@@ -1,31 +1,28 @@
 package infra;
 
-import java.io.InvalidObjectException;
-
 public class Environment {
+  private String loggedUsedName;
+  private boolean hasExited;
 
-  private boolean haveAnotherQuestion;
-  private String loggedUserName;
-
-  public Environment() {
-    haveAnotherQuestion = false;
-    loggedUserName = null;
+  public Environment()
+  {
+    hasExited = false;
+    loggedUsedName = null;
   }
 
-  public void login(String name) throws InvalidObjectException {
-    if (loggedUserName != null)
-      throw new InvalidObjectException(String.format("already logged by %s", loggedUserName));
-
-    loggedUserName = name;
+  public String getLoggedUsedName() {
+    return loggedUsedName;
   }
 
-  public String getLoggedUserName() { return loggedUserName; }
-
-  public boolean haveAnotherQuestion() {
-    return haveAnotherQuestion;
+  public void setLoggedUsedName(String loggedUsedName) {
+    this.loggedUsedName = loggedUsedName;
   }
 
-  public void setNoQuestionsLeft() {
-    haveAnotherQuestion = false;
+  public boolean hasExited() {
+    return hasExited;
+  }
+
+  public void hasExited(boolean hasExited) {
+    this.hasExited = hasExited;
   }
 }

@@ -3,19 +3,18 @@ package server;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import infra.IQuizServer;
 import java.io.IOException;
 
-public class HomeHandler implements HttpHandler {
+public class HomeHandler extends CommandHandler {
+
+  public HomeHandler(IQuizServer quizServer) {
+    super(quizServer);
+  }
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
     var response = "Hello, I am chat bot";
-    httpExchange.sendResponseHeaders(200, response.getBytes().length);
-
-    var os = httpExchange.getResponseBody();
-
-    os.write(response.getBytes());
-
-    os.close();
+    sendResponseAndClose(httpExchange, response, HttpStatusCode.OK);
   }
 }

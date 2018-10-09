@@ -1,7 +1,8 @@
 package infra;
 
-import infra.executors.ICommand;
+import infra.sender.IRequestSender;
 
 public interface ICommandFactory {
-  ICommand getCommandFromString(String command);
+  ICommand fromString(String command);
 }
+
