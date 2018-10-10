@@ -23,6 +23,7 @@ public class Server {
     httpServer.createContext("/have_questions", new HaveQuestionsHandler(quizServer));
     httpServer.createContext("/get_question", new GetQuestionHandler(quizServer));
     httpServer.createContext("/submit", new SubmitAnswerHandler(quizServer));
+    httpServer.createContext("/get_statistic", new GetStatisticHandler(quizServer));
     httpServer.setExecutor(null);
 
     httpServer.start();

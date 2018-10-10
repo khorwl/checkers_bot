@@ -2,6 +2,7 @@ package infra;
 
 import commands.AskCommand;
 import commands.ExitCommand;
+import commands.GetStatisticCommand;
 import commands.LoginCommand;
 import infra.sender.IRequestSender;
 import infra.ui.IStringReader;
@@ -22,7 +23,11 @@ public class CommandListGenerator {
       IStringReader reader,
       IStringWriter writer,
       IRequestSender sender) {
-    return generate(reader, writer, sender);
+    var common = generateCommonPart(reader, writer, sender);
+
+    common.add(new GetStatisticCommand(writer, sender));
+
+    return common;
   }
 
   private ArrayList<ICommand> generateCommonPart(
