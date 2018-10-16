@@ -19,7 +19,7 @@ public class HttpRequestSender implements IRequestSender {
 
   public Response sendRequest(Request request) {
     HttpURLConnection connection = null;
-    int code = -1;
+    int statusCode = -1;
     String body = null;
 
     try {
@@ -36,7 +36,7 @@ public class HttpRequestSender implements IRequestSender {
       bodyStreamWriter.write(bodyToSend);
       bodyStreamWriter.close();
 
-      code = connection.getResponseCode();
+      statusCode = connection.getResponseCode();
       var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
       body = readAll(br);
       br.close();
@@ -48,7 +48,7 @@ public class HttpRequestSender implements IRequestSender {
       }
     }
 
-    return new Response(code, body);
+    return new Response(statusCode, body);
   }
 
 

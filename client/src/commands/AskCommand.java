@@ -22,7 +22,7 @@ public class AskCommand implements ICommand {
 
   @Override
   public void execute(Environment environment) {
-    var user = environment.getLoggedUsedName();
+    var user = environment.getLoggedUserName();
     if (user == null) {
       writer.writeString("You should login before execute ask");
       return;

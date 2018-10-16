@@ -25,9 +25,9 @@ public class LoginCommand implements ICommand {
 
   @Override
   public void execute(Environment environment) {
-    if (environment.getLoggedUsedName() != null)
+    if (environment.getLoggedUserName() != null)
     {
-      writer.writeString(String.format("Already logged by %s", environment.getLoggedUsedName()));
+      writer.writeString(String.format("Already logged by %s", environment.getLoggedUserName()));
       return;
     }
 
@@ -41,7 +41,7 @@ public class LoginCommand implements ICommand {
     if (response.getStatusCode() == 200)
     {
       writer.writeString("Successfully logged in");
-      environment.setLoggedUsedName(name);
+      environment.setLoggedUserName(name);
     }
     else
     {

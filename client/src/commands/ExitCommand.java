@@ -15,9 +15,9 @@ public class ExitCommand implements ICommand {
 
   @Override
   public void execute(Environment environment) {
-    if (environment.getLoggedUsedName() != null)
+    if (environment.getLoggedUserName() != null)
     {
-      var name = environment.getLoggedUsedName();
+      var name = environment.getLoggedUserName();
       var params = new HashMap<String, String>();
       params.put("name", name);
       var request = new Request("/delete", params, null);

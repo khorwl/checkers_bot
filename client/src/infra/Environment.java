@@ -1,21 +1,21 @@
 package infra;
 
 public class Environment {
-  private String loggedUsedName;
+  private String loggedUserName;
   private boolean hasExited;
 
   public Environment()
   {
     hasExited = false;
-    loggedUsedName = null;
+    loggedUserName = null;
   }
 
-  public String getLoggedUsedName() {
-    return loggedUsedName;
+  public String getLoggedUserName() {
+    return loggedUserName;
   }
 
-  public void setLoggedUsedName(String loggedUsedName) {
-    this.loggedUsedName = loggedUsedName;
+  public void setLoggedUserName(String loggedUserName) {
+    this.loggedUserName = loggedUserName;
   }
 
   public boolean hasExited() {
