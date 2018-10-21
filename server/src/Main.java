@@ -9,6 +9,6 @@ public class Main {
   public static void main(String[] args) throws IOException {
     var server = new Server(new QuizServer());
 
-    server.run(new InetSocketAddress(8600));
+    server.run(new InetSocketAddress("0.0.0.0",8600));
   }
 }
