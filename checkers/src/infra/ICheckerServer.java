@@ -8,11 +8,7 @@ import java.util.ArrayList;
 
 interface ICheckerServer {
 
-    ArrayList locationCheckers = null;
+  Status makeMove(Checker checker, Vector vector);
 
-//    Checker getCheckerByCords(Vector cords);
-
-    Status makeMove(Checker checker, Vector vector);
-
-    ArrayList getLocationCheckers();
+  ArrayList getLocationCheckers();
 }
