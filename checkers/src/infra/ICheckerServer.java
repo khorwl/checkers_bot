@@ -10,5 +10,9 @@ interface ICheckerServer {
 
   Status makeMove(Checker checker, Vector vector);
 
+  Status makeMove(Vector from, Vector to);
+
+  Checker getCheckerPosition(Vector position);
+
   ArrayList getLocationCheckers();
 }

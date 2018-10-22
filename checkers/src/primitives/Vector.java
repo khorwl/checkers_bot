@@ -21,6 +21,10 @@ public class Vector {
         return new Vector(y + v.y, x + v.x);
     }
 
+    public Vector sub(Vector v){
+        return  new Vector(y - v.y, x- v.x);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this)

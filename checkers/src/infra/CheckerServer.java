@@ -17,8 +17,8 @@ public class CheckerServer implements ICheckerServer {
         return locationCheckers;
     }
 
-    //    @Override
-    private Checker getCheckerByCords(Vector cords) {
+    @Override
+    public Checker getCheckerPosition(Vector cords) {
         for (Checker locationChecker : locationCheckers) {
             if (locationChecker.getPosition().equals(cords))
                 return locationChecker;
@@ -35,6 +35,13 @@ public class CheckerServer implements ICheckerServer {
         if (isStep(checker, delta))
             return makeStep(checker, delta);
         return Status.FAIL;
+    }
+
+    @Override
+    public Status makeMove(Vector from, Vector to) {
+        var checker = getCheckerPosition(from);
+        var delta = to.sub(from);
+        return makeMove(checker, delta);
     }
 
     private Status cutDown(Checker checker, Vector delta) {
@@ -91,7 +98,7 @@ public class CheckerServer implements ICheckerServer {
         for (var i = 0; i < lengthWay; i++) {
             if (makeStep(pointer, unitVector) != Status.SUCCESS) {
                 var enemyCheckerCords = pointer.getPosition().add(unitVector);
-                checkers.add(getCheckerByCords(enemyCheckerCords));
+                checkers.add(getCheckerPosition(enemyCheckerCords));
                 pointer.setPosition(enemyCheckerCords);
             }
         }
