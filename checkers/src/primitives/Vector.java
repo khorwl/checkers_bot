@@ -1,8 +1,8 @@
 package primitives;
 
 public class Vector {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     public Vector(int y, int x) {
         this.y = y;

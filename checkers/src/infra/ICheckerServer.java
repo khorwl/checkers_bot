@@ -12,7 +12,7 @@ interface ICheckerServer {
 
   Status makeMove(Vector from, Vector to);
 
-  Checker getCheckerPosition(Vector position);
+  Checker getCheckerAt(Vector position);
 
-  ArrayList getLocationCheckers();
+  ArrayList getCheckers();
 }

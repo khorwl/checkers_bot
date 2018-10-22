@@ -5,21 +5,21 @@ import primitives.*;
 import java.util.ArrayList;
 
 public class CheckerServer implements ICheckerServer {
-    private ArrayList<Checker> locationCheckers;
+    private ArrayList<Checker> checkers;
 
 
     public CheckerServer(ArrayList<Checker> locationCheckers) {
-        this.locationCheckers = locationCheckers;
+        this.checkers = locationCheckers;
     }
 
     @Override
-    public ArrayList getLocationCheckers() {
-        return locationCheckers;
+    public ArrayList getCheckers() {
+        return checkers;
     }
 
     @Override
-    public Checker getCheckerPosition(Vector cords) {
-        for (Checker locationChecker : locationCheckers) {
+    public Checker getCheckerAt(Vector cords) {
+        for (Checker locationChecker : checkers) {
             if (locationChecker.getPosition().equals(cords))
                 return locationChecker;
         }
@@ -39,7 +39,7 @@ public class CheckerServer implements ICheckerServer {
 
     @Override
     public Status makeMove(Vector from, Vector to) {
-        var checker = getCheckerPosition(from);
+        var checker = getCheckerAt(from);
         var delta = to.sub(from);
         return makeMove(checker, delta);
     }
@@ -47,7 +47,7 @@ public class CheckerServer implements ICheckerServer {
     private Status cutDown(Checker checker, Vector delta) {
         if (isValidCutDown(checker, delta)) {
             var enemyChecker = getCheckerOnWay(checker.getPosition(), delta);
-            locationCheckers.remove(enemyChecker);
+            checkers.remove(enemyChecker);
             checker.move(delta);
             return Status.SUCCESS;
         }
@@ -55,17 +55,11 @@ public class CheckerServer implements ICheckerServer {
     }
 
     private boolean isCutDown(Checker checker, Vector delta) {
-        if (countCheckersOnWay(checker, delta) == 1) {
-            return true;
-        }
-        return false;
+      return countCheckersOnWay(checker, delta) == 1;
     }
 
     private boolean isStep(Checker checker, Vector delta) {
-        if (isFreeWay(checker, delta)) {
-            return true;
-        }
-        return false;
+      return isFreeWay(checker, delta);
     }
 
     private boolean isValidCutDown(Checker checker, Vector delta) {
@@ -98,7 +92,7 @@ public class CheckerServer implements ICheckerServer {
         for (var i = 0; i < lengthWay; i++) {
             if (makeStep(pointer, unitVector) != Status.SUCCESS) {
                 var enemyCheckerCords = pointer.getPosition().add(unitVector);
-                checkers.add(getCheckerPosition(enemyCheckerCords));
+                checkers.add(getCheckerAt(enemyCheckerCords));
                 pointer.setPosition(enemyCheckerCords);
             }
         }
@@ -114,9 +108,9 @@ public class CheckerServer implements ICheckerServer {
     }
 
     private Status makeStep(Checker checker, Vector delta) {
-        if (!isValidStep(checker, delta)) {
+        if (!isValidStep(checker, delta))
             return Status.FAIL;
-        }
+
         checker.move(delta);
         return Status.SUCCESS;
     }
@@ -124,10 +118,9 @@ public class CheckerServer implements ICheckerServer {
     private boolean isValidStep(Checker checker, Vector delta) {
         var nextPosition = checker.getPosition().add(delta);
 
-        if (checker.getRank() == Rank.SOLDIER) {
-            if ((Math.abs(delta.getY()) != 1))
-                return false;
-        }
+        if (checker.getRank() == Rank.SOLDIER && Math.abs(delta.getY()) != 1)
+            return false;
+
         if (nextPosition.getY() < 0 || nextPosition.getX() < 0)
             return false;
 
@@ -135,7 +128,7 @@ public class CheckerServer implements ICheckerServer {
     }
 
     private boolean isFreeCell(Vector cords) {
-        for (Checker locationChecker : locationCheckers) {
+        for (Checker locationChecker : checkers) {
             if (locationChecker.getPosition().equals(cords))
                 return false;
         }

@@ -7,7 +7,7 @@ public class Checker {
     private Rank rank;
 
     public Checker(Vector vector, Color color, Rank rank) {
-        if (vector.getY() < 0 || vector.getY() < 0)
+        if (vector.getY() < 0 || vector.getX() < 0)
             throw new IllegalArgumentException();
 
         this.position = vector;
