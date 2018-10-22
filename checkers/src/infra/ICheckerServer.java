@@ -10,7 +10,7 @@ interface ICheckerServer {
 
     ArrayList locationCheckers = null;
 
-    Checker getCheckerByCords(Vector cords);
+//    Checker getCheckerByCords(Vector cords);
 
     Status makeMove(Checker checker, Vector vector);
 
