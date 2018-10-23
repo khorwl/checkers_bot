@@ -1,7 +1,6 @@
 package infra;
 
 import infra.quiz.Question;
-
 import java.util.HashSet;
 import java.util.Set;
 

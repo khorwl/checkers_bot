@@ -1,10 +1,10 @@
 package tests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import infra.quiz.Question;
 import infra.quiz.QuestionLoader;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionLoaderUnitTests {
 

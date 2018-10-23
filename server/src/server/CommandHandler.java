@@ -3,10 +3,9 @@ package server;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import infra.IQuizServer;
-import tools.QueryParser;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import tools.QueryParser;
 
 public abstract class CommandHandler implements HttpHandler {
 

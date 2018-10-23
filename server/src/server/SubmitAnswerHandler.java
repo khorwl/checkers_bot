@@ -2,7 +2,6 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import infra.IQuizServer;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyException;

@@ -1,12 +1,11 @@
 package tests;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import tools.QueryParser;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import tools.QueryParser;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class QueryParserUnitTests {
 

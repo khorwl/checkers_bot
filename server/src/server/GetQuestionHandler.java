@@ -2,11 +2,9 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import infra.IQuizServer;
-import infra.quiz.Question;
-import tools.QuestionSerializer;
-
 import java.io.IOException;
 import java.security.KeyException;
+import tools.QuestionSerializer;
 
 public class GetQuestionHandler extends CommandHandler {
 

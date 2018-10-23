@@ -2,7 +2,6 @@ package server;
 
 import com.sun.net.httpserver.HttpServer;
 import infra.IQuizServer;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 

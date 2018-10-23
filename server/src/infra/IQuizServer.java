@@ -1,7 +1,6 @@
 package infra;
 
 import infra.quiz.Question;
-
 import java.security.KeyException;
 import java.util.HashMap;
 import java.util.List;
