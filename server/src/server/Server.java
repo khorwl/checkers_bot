@@ -13,8 +13,12 @@ public class Server {
     this.quizServer = quizServer;
   }
 
-  public void run(InetSocketAddress inetSocketAddress) throws IOException {
-    HttpServer httpServer = HttpServer.create(inetSocketAddress, 0);
+  public void run(InetSocketAddress addres) throws IOException {
+    System.out.println(
+        String.format("Starting server at %s:%s", addres.getHostString(), addres.getPort()));
+    System.out.println("Use Ctrl+C to shutdown");
+
+    HttpServer httpServer = HttpServer.create(addres, 0);
 
     httpServer.createContext("/", new HomeHandler(quizServer));
     httpServer.createContext("/register", new RegisterUserHandler(quizServer));
