@@ -1,4 +1,3 @@
-import infra.QuizServer;
 import java.net.InetSocketAddress;
 import server.Server;
 
@@ -7,7 +6,7 @@ public class Main {
   public static void main(String[] args) {
     try
     {
-      var server = new Server(new QuizServer());
+      var server = new Server();
 
       server.run(new InetSocketAddress("0.0.0.0",8600));
     }

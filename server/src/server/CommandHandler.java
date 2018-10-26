@@ -2,18 +2,15 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import infra.IQuizServer;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import tools.QueryParser;
 
 public abstract class CommandHandler implements HttpHandler {
 
-  protected IQuizServer quizServer;
   protected QueryParser queryParser;
 
-  public CommandHandler(IQuizServer quizServer) {
-    this.quizServer = quizServer;
+  public CommandHandler() {
     queryParser = new QueryParser();
   }
 
