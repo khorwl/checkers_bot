@@ -1,4 +1,4 @@
-package checkers.primitives;
+package infra.checkers.primitives;
 
 import java.util.Random;
 

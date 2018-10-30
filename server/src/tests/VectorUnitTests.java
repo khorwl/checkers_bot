@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.*;
 
-import checkers.primitives.Vector;
+import infra.checkers.primitives.Vector;
 
 public class VectorUnitTests {
 
