@@ -1,6 +1,7 @@
 package infra.checkers.primitives;
 
 import java.util.Random;
+import tools.Pair;
 
 public class Vector {
 
@@ -68,9 +69,11 @@ public class Vector {
     return ((x * 1033) ^ y * 1033) ^ z;
   }
 
+  public static final Character NumberDelimiter = ',';
+
   @Override
   public String toString() {
-    return String.format("(%d;%d;%d)", x, y, z);
+    return String.format("(%d%c%d%c%d)", x, NumberDelimiter, y, NumberDelimiter, z);
   }
 
   public Vector add(Vector vector) {
@@ -107,5 +110,93 @@ public class Vector {
 
   public static int getChebushevLength(Vector v1, Vector v2) {
     return v1.sub(v2).getChebushevLength();
+  }
+
+  public static Vector parse(String string) throws VectorException {
+    var p = tryParse(string);
+
+    if (p.first()) //if successfully parsed
+    {
+      return p.second();
+    }
+
+    throw new VectorException(
+        String.format("Illegal vector string format: %s",
+            string.length() < 50 ? string : string.substring(0, 45) + "..."));
+  }
+
+  private static final Pair<Boolean, Vector> failedParsePair = Pair.create(false, zero);
+
+  public static Pair<Boolean, Vector> tryParse(String string) {
+    try {
+      var numbers = readNumbers(string);
+
+      var x = Integer.decode(numbers[0]);
+      var y = Integer.decode(numbers[1]);
+      var z = Integer.decode(numbers[2]);
+
+      return Pair.create(true, new Vector(x, y, z));
+    } catch (NullPointerException | NumberFormatException e) {
+      return failedParsePair;
+    }
+  }
+
+  private static String[] readNumbers(String string) {
+    var index = 0;
+
+    if (!string.startsWith("(") || !string.endsWith(")")) {
+      return null;
+    }
+
+    string = string.substring(1, string.length() - 1);
+
+    var tokens = new String[3];
+
+    for (var i = 0; i < 3; i++) {
+      var token = readNumber(string, index);
+
+      if (token == null || token.length() == 0) {
+        return null;
+      }
+
+      index += token.length();
+      tokens[i] = token;
+
+      if (i != 2) {
+        if (index >= string.length() || string.charAt(index) != NumberDelimiter) {
+          return null;
+        }
+
+        index++;
+      } else {
+        if (index < string.length()) {
+          return null;
+        }
+      }
+    }
+
+    return tokens;
+  }
+
+  private static String readNumber(String string, int index) {
+    if (index < 0 || index >= string.length()) {
+      return null;
+    }
+
+    var builder = new StringBuilder();
+
+    while (index < string.length()) {
+      var ch = string.charAt(index);
+
+      if (!Character.isDigit(ch) && ch != '-') {
+        break;
+      }
+
+      builder.append(ch);
+
+      index++;
+    }
+
+    return builder.toString();
   }
 }

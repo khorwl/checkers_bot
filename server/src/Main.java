@@ -1,3 +1,7 @@
+import infra.CheckersServer;
+import infra.sessions.PlayerQueue;
+import infra.sessions.SessionServer;
+import infra.sessions.UserDataBase;
 import java.net.InetSocketAddress;
 import server.Server;
 
@@ -6,7 +10,11 @@ public class Main {
   public static void main(String[] args) {
     try
     {
-      var server = new Server();
+      var userDataBase = new UserDataBase();
+      var sessionServer = new SessionServer(null);
+      var playerQueue = new PlayerQueue();
+      var checkersServer = new CheckersServer(userDataBase, sessionServer, playerQueue);
+      var server = new Server(checkersServer);
 
       server.run(new InetSocketAddress("0.0.0.0",8600));
     }

@@ -1,13 +1,11 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import infra.checkers.primitives.VectorException;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import infra.checkers.primitives.Vector;
+import org.mockito.internal.matchers.Null;
 
 public class VectorUnitTests {
 
@@ -231,5 +229,89 @@ public class VectorUnitTests {
 
     assertEquals(expected, sut1);
     assertEquals(expected, sut2);
+  }
+
+  @Test
+  public void parse_nullString_shouldThrowNullPointerException() {
+    assertThrows(NullPointerException.class, () -> Vector.parse(null));
+  }
+
+  @Test
+  public void parse_emptyString_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse(""));
+  }
+
+  @Test
+  public void parse_someTrash_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("some trash"));
+  }
+
+  @Test
+  public void parse_invalidFormatInBraces_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("13,14,15"));
+  }
+
+  @Test
+  public void parse_noOpenBrace_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("13,14,15)"));
+  }
+
+  @Test
+  public void parse_noCloseBrace_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("(13,14,15"));
+  }
+
+  @Test
+  public void parse_tooManyOpenBraces_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("((13,14,15)"));
+  }
+
+  @Test
+  public void parse_tooManyCloseBraces_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("(13,14,15))))"));
+  }
+
+  @Test
+  public void parse_invalidDelimiter_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("(13;14;15)"));
+  }
+
+  @Test
+  public void parse_tooManyNumbers_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("(13,14,15,26)"));
+  }
+
+  @Test
+  public void parse_noEnoughNumbers_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("(13,14)"));
+  }
+
+  @Test
+  public void parse_notANumberInCords_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("(13,not_a_number,14"));
+  }
+
+  @Test
+  public void parse_tooBigNumber_shouldThrowVectorException() {
+    assertThrows(VectorException.class, () -> Vector.parse("(1231231231231231231231,3,5)"));
+  }
+
+  @Test
+  public void parse_regularPositiveVector_shouldReturnRightVector() throws VectorException {
+    var expected = Vector.create(3, 6, 1);
+
+    var sut = Vector.parse("(3,6,1)");
+
+    assertEquals(expected, sut);
+  }
+
+  @Test
+  public void parse_regularVectorWithNegativeCords_shouldReturnRightVector()
+      throws VectorException {
+    var expected = Vector.create(3, -6, -1);
+
+    var sut = Vector.parse("(3,-6,-1)");
+
+    assertEquals(expected, sut);
   }
 }
