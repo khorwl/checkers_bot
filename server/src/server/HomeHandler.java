@@ -1,8 +1,6 @@
 package server;
 
-import com.sun.net.httpserver.HttpExchange;
 import infra.ICheckersServer;
-import java.io.IOException;
 
 public class HomeHandler extends CommandHandler {
 
@@ -12,6 +10,8 @@ public class HomeHandler extends CommandHandler {
 
   @Override
   public Response handleRequest(Request request) {
-    return new Response("This is service for play 3d checkers", HttpStatusCode.OK);
+    return new Response(
+        "This is service for play 3d checkers\n" + request.getBody() + "\n",
+        HttpStatusCode.OK);
   }
 }

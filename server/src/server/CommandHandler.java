@@ -4,17 +4,16 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import infra.ICheckersServer;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import tools.QueryParser;
 
 public abstract class CommandHandler implements HttpHandler {
 
   protected final QueryParser queryParser;
-  protected final ICheckersServer checkersServer;
+  protected final ICheckersServer server;
 
-  public CommandHandler(ICheckersServer checkersServer) {
-    this.checkersServer = checkersServer;
+  public CommandHandler(ICheckersServer server) {
+    this.server = server;
     queryParser = new QueryParser();
   }
 
@@ -28,11 +27,16 @@ public abstract class CommandHandler implements HttpHandler {
     httpExchange.close();
   }
 
-  public void handle(HttpExchange exchange) throws IOException {
+  private void sendResponseAndClose(HttpExchange httpExchange, Response response)
+      throws IOException {
+    sendResponseAndClose(httpExchange, response.getBody(), response.getStatusCode());
+  }
+
+  public final void handle(HttpExchange exchange) throws IOException {
     var request = buildRequest(exchange);
     var response = handleRequest(request);
 
-    sendResponseAndClose(exchange, response.getBody(), response.getStatusCode());
+    sendResponseAndClose(exchange, response);
   }
 
 

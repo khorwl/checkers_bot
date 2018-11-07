@@ -10,27 +10,27 @@ import infra.ICheckersServer;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.DeleteHandler;
 import server.HttpStatusCode;
-import server.RegisterHandler;
 import server.Request;
 import server.Response;
 
 
-public class RegisterHandlerUnitTests {
+public class DeleteHandlerUnitTests {
 
-  private RegisterHandler handler;
+  private DeleteHandler handler;
   private ICheckersServer server;
 
   @BeforeEach
   public void init() {
     server = mock(ICheckersServer.class);
-    handler = new RegisterHandler(server);
+    handler = new DeleteHandler(server);
   }
 
   @Test
   public void handleRequest_withInvalidQuery_shouldReturnResponseWithBadRequestCode() {
     var query = Map.of("Name", "value", "__name", "value", "lol", "mde");
-    var request = new Request("Some trash", query);
+    var request = new Request("", query);
     var expected = new Response("Invalid query", HttpStatusCode.BadRequest);
 
     var sut = handler.handleRequest(request);
@@ -39,12 +39,13 @@ public class RegisterHandlerUnitTests {
   }
 
   @Test
-  public void handleRequest_withAlreadyExistingUser_shouldReturnResponseWithConflictCode() {
-    var name = "user";
+  public void handleRequest_withNoExistingUser_shouldReturnResponseWithConflictCode() {
+    var name = "username";
     var query = Map.of("name", name);
-    when(server.registerUser(name)).thenReturn(false);
-    var request = new Request("Some trash", query);
-    var expected = new Response(String.format("Cant register user \"%s\"", name),
+    when(server.deleteUser(name)).thenReturn(false);
+    var request = new Request("", query);
+    var expected = new Response(
+        String.format("Cant delete user \"%s\"", name),
         HttpStatusCode.Conflict);
 
     var sut = handler.handleRequest(request);
@@ -53,25 +54,24 @@ public class RegisterHandlerUnitTests {
   }
 
   @Test
-  public void handleRequest_shouldCallRegisterOfServerOnce() {
-    var name = "user";
+  public void handleRequest_shouldCallDeleteOfServerOnce() {
+    var name = "username";
     var query = Map.of("name", name);
-    when(server.registerUser(name)).thenReturn(false);
-    var request = new Request("Some trash", query);
+    var request = new Request("", query);
 
     handler.handleRequest(request);
 
-    verify(server, times(1)).registerUser(name);
+    verify(server, times(1)).deleteUser(name);
   }
 
   @Test
   public void handleRequest_serversReturnsTrue_shouldReturnRightResponse() {
-    var name = "user";
+    var name = "username";
     var query = Map.of("name", name);
-    when(server.registerUser(name)).thenReturn(true);
-    var request = new Request("Some trash", query);
+    when(server.deleteUser(name)).thenReturn(true);
+    var request = new Request("", query);
     var expected = new Response(
-        String.format("Successfully register user \"%s\"", name),
+        String.format("Successfully delete user \"%s\"", name),
         HttpStatusCode.OK);
 
     var sut = handler.handleRequest(request);
