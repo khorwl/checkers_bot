@@ -11,7 +11,7 @@ public class Request {
 
   public Request(String body, Map<String, String> queryToValue) {
     this.queryToValue = Collections.unmodifiableMap(queryToValue);
-    this.body = body;
+    this.body = body == null ? "" : body;
   }
 
   public boolean hasParameter(String key) {

@@ -41,6 +41,11 @@ public class CheckersServer implements ICheckersServer {
   }
 
   @Override
+  public boolean hasUser(String name) {
+    return userDataBase.hasUser(name);
+  }
+
+  @Override
   public void enqueueUserToPlayerQueue(String name) throws KeyException {
     playerQueue.enqueue(userDataBase.getUser(name));
   }

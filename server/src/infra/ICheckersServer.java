@@ -10,6 +10,7 @@ public interface ICheckersServer {
   boolean registerUser(String name);
   boolean deleteUser(String name);
   Set<User> getUsers();
+  boolean hasUser(String name);
 
   void enqueueUserToPlayerQueue(String name) throws KeyException;
 
