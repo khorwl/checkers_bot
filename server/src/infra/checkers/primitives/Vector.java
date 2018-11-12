@@ -104,11 +104,11 @@ public class Vector {
     return Math.max(Math.max(dy, dx), dz);
   }
 
-  public static int getManhattanLength(Vector v1, Vector v2) {
+  public static int getManhattanDistance(Vector v1, Vector v2) {
     return v1.sub(v2).getManhattanLength();
   }
 
-  public static int getChebushevLength(Vector v1, Vector v2) {
+  public static int getChebushevDistance(Vector v1, Vector v2) {
     return v1.sub(v2).getChebushevLength();
   }
 

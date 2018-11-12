@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import infra.checkers.primitives.Vector;
-import org.mockito.internal.matchers.Null;
 
 public class VectorUnitTests {
 
@@ -211,8 +210,8 @@ public class VectorUnitTests {
     var v2 = new Vector(10, 17, 1);
     var expected = 5 + 13 + 17 + 4;
 
-    var sut1 = Vector.getManhattanLength(v1, v2);
-    var sut2 = Vector.getManhattanLength(v2, v1);
+    var sut1 = Vector.getManhattanDistance(v1, v2);
+    var sut2 = Vector.getManhattanDistance(v2, v1);
 
     assertEquals(expected, sut1);
     assertEquals(expected, sut2);
@@ -224,8 +223,8 @@ public class VectorUnitTests {
     var v2 = new Vector(10, 17, 1);
     var expected = 13 + 17;
 
-    var sut1 = Vector.getChebushevLength(v1, v2);
-    var sut2 = Vector.getChebushevLength(v2, v1);
+    var sut1 = Vector.getChebushevDistance(v1, v2);
+    var sut2 = Vector.getChebushevDistance(v2, v1);
 
     assertEquals(expected, sut1);
     assertEquals(expected, sut2);
