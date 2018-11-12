@@ -18,9 +18,12 @@ public class EnqueueHandler extends CommandHandler {
     if (name == null)
       return new Response("Invalid query", HttpStatusCode.BadRequest);
 
-    if (!server.hasUser(name))
-      return new Response(String.format("No such user: \"%s\"", name), HttpStatusCode.NotFound);
+    try {
+      server.enqueueUserToPlayerQueue(name);
 
-    return new Response("enqueue", HttpStatusCode.OK);
+      return new Response("successfully", HttpStatusCode.OK);
+    } catch (KeyException e) {
+      return new Response(String.format("No such user: \"%s\"", name), HttpStatusCode.NotFound);
+    }
   }
 }

@@ -58,4 +58,13 @@ public class EnqueueHandlerUnitTests {
     assertEquals(expected, sut);
   }
 
+  @Test
+  public void handle_Request_withValidUserName_shouldReturnSuccessResponse() {
+    var request = new Request(null, Map.of("name", "user"));
+    var expected = new Response("successfully", HttpStatusCode.OK);
+
+    var sut = handler.handleRequest(request);
+
+    assertEquals(expected, sut);
+  }
 }
