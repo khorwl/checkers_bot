@@ -2,7 +2,6 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import core.ICheckersServer;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import tools.QueryParser;
@@ -10,10 +9,8 @@ import tools.QueryParser;
 public abstract class CommandHandler implements HttpHandler {
 
   protected final QueryParser queryParser;
-  protected final ICheckersServer server;
 
-  public CommandHandler(ICheckersServer server) {
-    this.server = server;
+  public CommandHandler() {
     queryParser = new QueryParser();
   }
 

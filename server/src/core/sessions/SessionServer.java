@@ -1,5 +1,6 @@
 package core.sessions;
 
+import core.checkers.IGame;
 import core.checkers.IGameFactory;
 import java.security.KeyException;
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ public class SessionServer implements ISessionServer {
 
   @Override
   public Session createSession(User whitePlayer, User blackPlayer) {
-    var game = gameFactory.createGame(whitePlayer, blackPlayer);
+//    var game = gameFactory.createGame(whitePlayer, blackPlayer);
+    IGame game = null;
     var id = UUID.randomUUID().toString();
     var session = new Session(whitePlayer, blackPlayer, id, game);
 
