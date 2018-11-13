@@ -17,7 +17,7 @@ public class UserDataBase implements IUserDataBase {
     if (hasUser(name))
       return false;
 
-    nameToUser.put(name, new User(name, player));
+    nameToUser.put(name, new User(name));
 
     return true;
   }

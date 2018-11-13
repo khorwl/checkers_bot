@@ -31,7 +31,7 @@ public class PlayerQueueUnitTests {
   @Test
   public void isEmpty_afterEnqueue_shouldBeFalse() {
     var q = queue();
-    q.enqueue(new User("lol", player));
+    q.enqueue(new User("lol"));
 
     assertFalse(q.isEmpty());
   }
@@ -39,8 +39,8 @@ public class PlayerQueueUnitTests {
   @Test
   public void isEmpty_afterDequedPair_shouldBeTrue() {
     var q = queue();
-    q.enqueue(new User("lol", player));
-    q.enqueue(new User("lol1", player));
+    q.enqueue(new User("lol"));
+    q.enqueue(new User("lol1"));
     q.dequeuePairOrNull();
 
     assertTrue(q.isEmpty());
@@ -55,7 +55,7 @@ public class PlayerQueueUnitTests {
   public void size_afterNenqueue_shouldBeN() {
     var q = queue();
     for (var i = 0; i < 42; i++) {
-      q.enqueue(new User(Integer.toString(i), player));
+      q.enqueue(new User(Integer.toString(i)));
     }
 
     assertEquals(42, q.size());
@@ -64,8 +64,8 @@ public class PlayerQueueUnitTests {
   @Test
   public void size_afterDequeue_shouldBeZero() {
     var q = queue();
-    q.enqueue(new User("lol", player));
-    q.enqueue(new User("lol1", player));
+    q.enqueue(new User("lol"));
+    q.enqueue(new User("lol1"));
     q.dequeuePairOrNull();
 
     assertEquals(0, q.size());
@@ -74,7 +74,7 @@ public class PlayerQueueUnitTests {
   @Test
   public void hasPair_lessThanTwoUsersPresentedInQueue_shouldBeFalse() {
     var q = queue();
-    q.enqueue(new User("lol", player));
+    q.enqueue(new User("lol"));
 
     assertFalse(q.hasPair());
   }
@@ -82,9 +82,9 @@ public class PlayerQueueUnitTests {
   @Test
   public void hasPair_moreThanTwoUsersPresentedInQueue_shouldBeTrue() {
     var q = queue();
-    q.enqueue(new User("lol", player));
-    q.enqueue(new User("lol1", player));
-    q.enqueue(new User("lol2", player));
+    q.enqueue(new User("lol"));
+    q.enqueue(new User("lol1"));
+    q.enqueue(new User("lol2"));
 
     assertTrue(q.hasPair());
   }
@@ -93,7 +93,7 @@ public class PlayerQueueUnitTests {
   public void enqueue_uniqualUser_shouldReturnTrue() {
     var q = queue();
 
-    var sut = q.enqueue(new User("lol", player));
+    var sut = q.enqueue(new User("lol"));
 
     assertTrue(sut);
   }
@@ -101,9 +101,9 @@ public class PlayerQueueUnitTests {
   @Test
   public void enqueue_userAreAlreadyInQueue_shouldReturnFalse() {
     var q = queue();
-    q.enqueue(new User("lol", player));
+    q.enqueue(new User("lol"));
 
-    var sut = q.enqueue(new User("lol", player));
+    var sut = q.enqueue(new User("lol"));
 
     assertFalse(sut);
   }
@@ -118,9 +118,9 @@ public class PlayerQueueUnitTests {
   @Test
   public void dequeuePair_ifPairExists_shouldReturnRightPair() throws PlayerQueueException {
     var q = queue();
-    var user = new User("lol", player);
+    var user = new User("lol");
     q.enqueue(user);
-    var user2 = new User("lol1", player);
+    var user2 = new User("lol1");
     q.enqueue(user2);
 
     var pair = q.dequeuePair();

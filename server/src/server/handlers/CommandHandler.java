@@ -2,6 +2,9 @@ package server.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import core.queue.IPlayerQueue;
+import core.sessions.ISessionServer;
+import core.userdb.IUserDataBase;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import server.Request;
@@ -11,9 +14,19 @@ import tools.QueryParser;
 public abstract class CommandHandler implements HttpHandler {
 
   protected final QueryParser queryParser;
+  protected final IUserDataBase userDataBase;
+  protected final ISessionServer sessionServer;
+  protected final IPlayerQueue playerQueue;
 
-  public CommandHandler() {
-    queryParser = new QueryParser();
+  public CommandHandler(
+      QueryParser queryParser,
+      IUserDataBase userDataBase,
+      ISessionServer sessionServer,
+      IPlayerQueue playerQueue) {
+    this.queryParser = queryParser;
+    this.userDataBase = userDataBase;
+    this.sessionServer = sessionServer;
+    this.playerQueue = playerQueue;
   }
 
   private void sendResponseAndClose(HttpExchange httpExchange, String body, int statusCode)
@@ -26,7 +39,8 @@ public abstract class CommandHandler implements HttpHandler {
     httpExchange.close();
   }
 
-  private void sendResponseAndClose(HttpExchange httpExchange, Response response) throws IOException {
+  private void sendResponseAndClose(HttpExchange httpExchange, Response response)
+      throws IOException {
     sendResponseAndClose(httpExchange, response.getBody(), response.getStatusCode());
   }
 

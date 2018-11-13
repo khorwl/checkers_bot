@@ -1,6 +1,5 @@
 package core.userdb;
 
-import java.security.KeyException;
 import java.util.Set;
 
 public interface IUserDataBase {

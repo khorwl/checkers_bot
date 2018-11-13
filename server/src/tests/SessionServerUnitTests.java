@@ -3,6 +3,7 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import core.checkers.IGame;
 import core.checkers.IGameFactory;
 import core.sessions.Session;
 import core.sessions.SessionServer;
@@ -23,18 +24,10 @@ public class SessionServerUnitTests {
     gameFactory = mock(IGameFactory.class);
     server = new SessionServer(gameFactory);
 
-    white = new User("white", player);
-    black = new User("black", player);
-    whiteOther = new User("whiteOther", player);
-    blackOther = new User("blackOther", player);
-  }
-
-  @Test
-  public void createSession_shouldReturnSessionWithGivenUsers() {
-    var sut = server.createSession(white, black);
-
-    assertEquals(white, sut.getWhitePlayer());
-    assertEquals(black, sut.getBlackPlayer());
+    white = new User("white");
+    black = new User("black");
+    whiteOther = new User("whiteOther");
+    blackOther = new User("blackOther");
   }
 
   @Test
@@ -89,5 +82,34 @@ public class SessionServerUnitTests {
     server.endSession(s.getId());
 
     assertEquals(0, server.getSessions().size());
+  }
+
+  @Test
+  public void createSession_shouldCallGameFactory() {
+    server.createSession(null, null);
+
+    verify(gameFactory, times(1)).createGame(any(), any());
+  }
+
+  @Test
+  public void createSession_shouldReturnSessionWithGameFromFactory() {
+    var game = mock(IGame.class);
+    when(gameFactory.createGame(any(), any())).thenReturn(game);
+
+    var sut = server.createSession(null, null);
+
+    assertEquals(game, sut.getGame());
+  }
+
+  @Test
+  public void createSession_shouldReturnSessionsWithUniqualIds() {
+    var ids = new HashSet<String>();
+    var testNum = 100000;
+
+    for (var i = 0; i < testNum; i++) {
+      ids.add(server.createSession(null, null).getId());
+    }
+
+    assertEquals(testNum, ids.size());
   }
 }
