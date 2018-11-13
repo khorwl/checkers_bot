@@ -1,4 +1,4 @@
-package infra.sessions;
+package core.sessions;
 
 import java.security.KeyException;
 import java.util.Set;

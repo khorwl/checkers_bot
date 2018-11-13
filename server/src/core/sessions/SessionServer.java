@@ -1,6 +1,6 @@
-package infra.sessions;
+package core.sessions;
 
-import infra.checkers.IGameFactory;
+import core.checkers.IGameFactory;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;

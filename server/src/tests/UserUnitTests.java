@@ -1,6 +1,6 @@
 package tests;
 
-import infra.sessions.User;
+import core.sessions.User;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;

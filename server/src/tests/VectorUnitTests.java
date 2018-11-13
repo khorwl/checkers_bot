@@ -1,10 +1,10 @@
 package tests;
 
-import infra.checkers.primitives.VectorException;
+import core.checkers.primitives.VectorException;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import infra.checkers.primitives.Vector;
+import core.checkers.primitives.Vector;
 
 public class VectorUnitTests {
 

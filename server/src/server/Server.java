@@ -1,7 +1,7 @@
 package server;
 
 import com.sun.net.httpserver.HttpServer;
-import infra.ICheckersServer;
+import core.ICheckersServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 

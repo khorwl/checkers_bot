@@ -3,10 +3,10 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import infra.checkers.IGameFactory;
-import infra.sessions.Session;
-import infra.sessions.SessionServer;
-import infra.sessions.User;
+import core.checkers.IGameFactory;
+import core.sessions.Session;
+import core.sessions.SessionServer;
+import core.sessions.User;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashSet;

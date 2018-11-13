@@ -1,9 +1,7 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-import infra.checkers.primitives.Vector;
 import org.junit.jupiter.api.*;
 import tools.Pair;
 

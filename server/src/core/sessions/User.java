@@ -1,4 +1,4 @@
-package infra.sessions;
+package core.sessions;
 
 public class User {
 

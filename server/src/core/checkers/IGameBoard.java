@@ -1,8 +1,8 @@
-package infra.checkers;
+package core.checkers;
 
-import infra.checkers.primitives.Checker;
-import infra.checkers.primitives.TurnStatus;
-import infra.checkers.primitives.Vector;
+import core.checkers.primitives.Checker;
+import core.checkers.primitives.TurnStatus;
+import core.checkers.primitives.Vector;
 import java.util.List;
 
 public interface IGameBoard {

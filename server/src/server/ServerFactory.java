@@ -1,9 +1,9 @@
 package server;
 
-import infra.CheckersServer;
-import infra.sessions.PlayerQueue;
-import infra.sessions.SessionServer;
-import infra.sessions.UserDataBase;
+import core.CheckersServer;
+import core.sessions.PlayerQueue;
+import core.sessions.SessionServer;
+import core.sessions.UserDataBase;
 
 public class ServerFactory implements IServerFactory {
 

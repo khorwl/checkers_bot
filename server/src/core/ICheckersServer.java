@@ -1,8 +1,8 @@
-package infra;
+package core;
 
-import infra.checkers.primitives.Vector;
-import infra.sessions.Session;
-import infra.sessions.User;
+import core.checkers.primitives.Vector;
+import core.sessions.Session;
+import core.sessions.User;
 import java.security.KeyException;
 import java.util.Set;
 

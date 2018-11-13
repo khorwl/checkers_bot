@@ -1,12 +1,12 @@
-package infra;
+package core;
 
-import infra.checkers.primitives.TurnStatus;
-import infra.checkers.primitives.Vector;
-import infra.sessions.IPlayerQueue;
-import infra.sessions.ISessionServer;
-import infra.sessions.IUserDataBase;
-import infra.sessions.Session;
-import infra.sessions.User;
+import core.checkers.primitives.TurnStatus;
+import core.checkers.primitives.Vector;
+import core.sessions.IPlayerQueue;
+import core.sessions.ISessionServer;
+import core.sessions.IUserDataBase;
+import core.sessions.Session;
+import core.sessions.User;
 import java.security.KeyException;
 import java.util.Set;
 

@@ -1,6 +1,6 @@
-package infra.checkers.primitives;
+package core.checkers.primitives;
 
-public enum GameState
+public enum GameProgress
 {
   IN_PROGRESS,
   FINISHED_BY_WINNING_WHITE,

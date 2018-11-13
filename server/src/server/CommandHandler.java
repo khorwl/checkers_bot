@@ -2,7 +2,7 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import infra.ICheckersServer;
+import core.ICheckersServer;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import tools.QueryParser;

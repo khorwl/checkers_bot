@@ -1,6 +1,6 @@
 package server;
 
-import infra.ICheckersServer;
+import core.ICheckersServer;
 
 public class HomeHandler extends CommandHandler {
 

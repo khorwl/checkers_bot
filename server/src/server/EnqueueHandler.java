@@ -1,8 +1,6 @@
 package server;
 
-import com.sun.net.httpserver.HttpExchange;
-import infra.ICheckersServer;
-import java.io.IOException;
+import core.ICheckersServer;
 import java.security.KeyException;
 
 public class EnqueueHandler extends CommandHandler {

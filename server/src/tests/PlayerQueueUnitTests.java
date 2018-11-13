@@ -1,7 +1,7 @@
 package tests;
 
-import infra.sessions.PlayerQueue;
-import infra.sessions.User;
+import core.sessions.PlayerQueue;
+import core.sessions.User;
 import org.junit.jupiter.api.*;
 import tools.Pair;
 

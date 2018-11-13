@@ -1,6 +1,6 @@
-package infra.sessions;
+package core.sessions;
 
-import infra.checkers.IGame;
+import core.checkers.IGame;
 
 public class Session {
   private final String id;
