@@ -1,4 +1,4 @@
-package core.sessions;
+package core.userdb;
 
 public class User {
 

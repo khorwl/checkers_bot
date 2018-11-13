@@ -1,8 +1,8 @@
 package server;
 
-import core.sessions.PlayerQueue;
+import core.queue.PlayerQueue;
 import core.sessions.SessionServer;
-import core.sessions.UserDataBase;
+import core.userdb.UserDataBase;
 
 public class ServerFactory implements IServerFactory {
 

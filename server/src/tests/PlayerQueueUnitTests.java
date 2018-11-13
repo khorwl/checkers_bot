@@ -1,7 +1,8 @@
 package tests;
 
-import core.sessions.PlayerQueue;
-import core.sessions.User;
+import core.queue.PlayerQueue;
+import core.queue.PlayerQueueException;
+import core.userdb.User;
 import org.junit.jupiter.api.*;
 import tools.Pair;
 
@@ -21,73 +22,111 @@ public class PlayerQueueUnitTests {
   }
 
   @Test
-  public void getSize_atBeginningAreZero() {
-    assertEquals(0, queue().getEnqueuedUsersAmount());
-  }
-
-  @Test
-  public void getSize_afterNEnqueuesOfDifferentUsers_shouldBeN() {
+  public void isEmpty_afterCreation_shouldBeTrue() {
     var q = queue();
-    for (var i = 0; i < 43; i++) {
-      q.enqueue(new User("lol" + Integer.toString(i)));
-    }
 
-    assertEquals(43, q.getEnqueuedUsersAmount());
+    assertTrue(q.isEmpty());
   }
 
   @Test
-  public void getSize_shouldBeNumberOfUniqualUsers() {
+  public void isEmpty_afterEnqueue_shouldBeFalse() {
+    var q = queue();
+    q.enqueue(new User("lol", player));
+
+    assertFalse(q.isEmpty());
+  }
+
+  @Test
+  public void isEmpty_afterDequedPair_shouldBeTrue() {
+    var q = queue();
+    q.enqueue(new User("lol", player));
+    q.enqueue(new User("lol1", player));
+    q.dequeuePairOrNull();
+
+    assertTrue(q.isEmpty());
+  }
+
+  @Test
+  public void size_afterCreation_shouldBeZero() {
+    assertEquals(queue().size(), 0);
+  }
+
+  @Test
+  public void size_afterNenqueue_shouldBeN() {
     var q = queue();
     for (var i = 0; i < 42; i++) {
-      q.enqueue(new User("user" + Integer.toString(i % 3)));
+      q.enqueue(new User(Integer.toString(i), player));
     }
 
-    assertEquals(3, q.getEnqueuedUsersAmount());
+    assertEquals(42, q.size());
   }
 
   @Test
-  public void hasPair_ifThereIsNoTwoDifferentUser_shouldReturnFalse() {
+  public void size_afterDequeue_shouldBeZero() {
     var q = queue();
-    q.enqueue(new User("lol"));
-    q.enqueue(new User("lol"));
-    q.enqueue(new User("lol"));
+    q.enqueue(new User("lol", player));
+    q.enqueue(new User("lol1", player));
+    q.dequeuePairOrNull();
+
+    assertEquals(0, q.size());
+  }
+
+  @Test
+  public void hasPair_lessThanTwoUsersPresentedInQueue_shouldBeFalse() {
+    var q = queue();
+    q.enqueue(new User("lol", player));
 
     assertFalse(q.hasPair());
   }
 
   @Test
-  public void hasPair_ifThereIsTwoOrMoreDifferentUsers_shouldReturnTrue() {
+  public void hasPair_moreThanTwoUsersPresentedInQueue_shouldBeTrue() {
     var q = queue();
-    q.enqueue(new User("lol"));
-    q.enqueue(new User("lol2"));
-    q.enqueue(new User("lol3"));
-    q.enqueue(new User("lol3"));
-    q.enqueue(new User("lol3"));
+    q.enqueue(new User("lol", player));
+    q.enqueue(new User("lol1", player));
+    q.enqueue(new User("lol2", player));
 
     assertTrue(q.hasPair());
   }
 
   @Test
-  public void dequeuePair_ifThereIsNoPair_shouldThrowIllegalStateException() {
+  public void enqueue_uniqualUser_shouldReturnTrue() {
     var q = queue();
-    q.enqueue(new User("lol"));
-    q.enqueue(new User("lol"));
 
-    assertThrows(IllegalStateException.class, q::dequeuePair);
+    var sut = q.enqueue(new User("lol", player));
+
+    assertTrue(sut);
   }
 
   @Test
-  public void dequeuePair_thereIsValidPair_shouldReturnRightPair() {
+  public void enqueue_userAreAlreadyInQueue_shouldReturnFalse() {
     var q = queue();
-    q.enqueue(new User("user1"));
-    q.enqueue(new User("user2"));
+    q.enqueue(new User("lol", player));
 
-    var sut = q.dequeuePair();
-    var c1 = sut.equals(Pair.create(new User("user1"), new User("user2")));
-    var c2 = sut.equals(Pair.create(new User("user2"), new User("user1")));
+    var sut = q.enqueue(new User("lol", player));
 
-    if (!c1 && !c2) {
-      fail("dequeued pair must have one of two values");
-    }
+    assertFalse(sut);
+  }
+
+  @Test
+  public void dequeuePair_ifNoPairInQueue_shouldThrowPlayerQueueException() {
+    var q = queue();
+
+    assertThrows(PlayerQueueException.class, q::dequeuePair);
+  }
+
+  @Test
+  public void dequeuePair_ifPairExists_shouldReturnRightPair() throws PlayerQueueException {
+    var q = queue();
+    var user = new User("lol", player);
+    q.enqueue(user);
+    var user2 = new User("lol1", player);
+    q.enqueue(user2);
+
+    var pair = q.dequeuePair();
+
+    if (!pair.equals(Pair.create(user, user2)) && !pair.equals(Pair.create(user2, user)))
+      fail();
   }
 }
+

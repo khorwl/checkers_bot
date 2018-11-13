@@ -1,9 +1,11 @@
-package server;
+package server.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import server.Request;
+import server.Response;
 import tools.QueryParser;
 
 public abstract class CommandHandler implements HttpHandler {
@@ -24,8 +26,7 @@ public abstract class CommandHandler implements HttpHandler {
     httpExchange.close();
   }
 
-  private void sendResponseAndClose(HttpExchange httpExchange, Response response)
-      throws IOException {
+  private void sendResponseAndClose(HttpExchange httpExchange, Response response) throws IOException {
     sendResponseAndClose(httpExchange, response.getBody(), response.getStatusCode());
   }
 

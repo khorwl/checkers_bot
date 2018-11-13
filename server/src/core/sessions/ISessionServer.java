@@ -1,5 +1,6 @@
 package core.sessions;
 
+import core.userdb.User;
 import java.security.KeyException;
 import java.util.List;
 

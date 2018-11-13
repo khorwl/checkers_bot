@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import core.checkers.IGameFactory;
 import core.sessions.Session;
 import core.sessions.SessionServer;
-import core.sessions.User;
+import core.userdb.User;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,10 +23,10 @@ public class SessionServerUnitTests {
     gameFactory = mock(IGameFactory.class);
     server = new SessionServer(gameFactory);
 
-    white = new User("white");
-    black = new User("black");
-    whiteOther = new User("whiteOther");
-    blackOther = new User("blackOther");
+    white = new User("white", player);
+    black = new User("black", player);
+    whiteOther = new User("whiteOther", player);
+    blackOther = new User("blackOther", player);
   }
 
   @Test
