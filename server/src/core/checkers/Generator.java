@@ -21,8 +21,8 @@ public class Generator {
 
         var z = color == Color.WHITE ? 0 : 8;
 
-        for (var i = 0; i < Constants.fieldY; i++) {
-            for (var j = 0; j < Constants.fieldX; j++) {
+        for (var i = 0; i < Constants.size; i++) {
+            for (var j = 0; j < Constants.size; j++) {
                 if (i % 2 == 0) {
                     if (j % 2 == 0)
                         continue;

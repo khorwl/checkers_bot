@@ -2,6 +2,7 @@ package core.checkers.primitives;
 
 import java.util.Random;
 
+import core.checkers.Constants;
 import tools.Pair;
 
 public class Vector {
@@ -77,36 +78,15 @@ public class Vector {
         return String.format("(%d%c%d%c%d)", x, NumberDelimiter, y, NumberDelimiter, z);
     }
 
-    public Vector add(Vector vector) {
-        var v = new Vector(x + vector.x, y + vector.y, z + vector.z);
+    public Vector add(Vector vector) { return new Vector(x + vector.x, y + vector.y, z + vector.z); }
 
-        if (!v.inBoard())
-            throw new IndexOutOfBoundsException();
+    public Vector sub(Vector vector) { return new Vector(x - vector.x, y - vector.y, z - vector.z); }
 
-        return v;
-    }
-
-    public Vector sub(Vector vector) {
-        var v = new Vector(x - vector.x, y - vector.y, z - vector.z);
-
-        if (!v.inBoard())
-            throw new IndexOutOfBoundsException();
-
-        return v;
-    }
-
-    public Vector mul(int k) {
-        var v = new Vector(x * k, y * k, z * k);
-
-        if (!v.inBoard())
-            throw new IndexOutOfBoundsException();
-
-        return v;
-    }
+    public Vector mul(int k) { return new Vector(x * k, y * k, z * k); }
 
 
     public boolean inBoard() {
-        return x > 0 && y > 0 && z > 0 && x < 8 && y < 8 && z < 8;
+        return x >= 0 && y >= 0 && z >= 0 && x < Constants.size && y < Constants.size && z < Constants.size;
     }
 
     public int getManhattanLength() {
