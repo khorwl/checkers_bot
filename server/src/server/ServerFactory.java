@@ -12,6 +12,6 @@ public class ServerFactory implements IServerFactory {
     var sessionServer = new SessionServer(null);
     var playerQueue = new PlayerQueue();
 
-    return new Server();
+    return new Server(userDataBase, sessionServer, playerQueue);
   }
 }

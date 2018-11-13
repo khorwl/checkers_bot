@@ -1,6 +1,8 @@
 package core.userdb;
 
-public class UserDataBaseException extends Exception {
+import core.tools.CoreException;
+
+public class UserDataBaseException extends CoreException {
   public UserDataBaseException() {
     super("User database exception");
   }

@@ -2,6 +2,7 @@ package core.sessions;
 
 import core.checkers.IGame;
 import core.checkers.IGameFactory;
+import core.checkers.players.EasyAIPlayer;
 import core.userdb.User;
 import java.security.KeyException;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SessionServer implements ISessionServer {
-
   private final IGameFactory gameFactory;
   private final Map<String, Session> idToSession;
 
@@ -21,11 +21,29 @@ public class SessionServer implements ISessionServer {
   }
 
   @Override
-  public Session createSession(User whitePlayer, User blackPlayer) {
-//    var game = gameFactory.createGame(whitePlayer, blackPlayer);
-    IGame game = null;
+  public Session createSession(User whiteUser, User blackUser) {
+    var game = gameFactory.createGame(whiteUser, blackUser);
+
+    return createSessionForGame(game);
+  }
+
+  @Override
+  public Session createAISessionForWhite(User user) {
+    var game = gameFactory.createGame(user, new EasyAIPlayer());
+
+    return createSessionForGame(game);
+  }
+
+  @Override
+  public Session createAISessionForBlack(User user) {
+    var game = gameFactory.createGame(new EasyAIPlayer(), user);
+
+    return createSessionForGame(game);
+  }
+
+  private Session createSessionForGame(IGame game) {
     var id = UUID.randomUUID().toString();
-    var session = new Session(whitePlayer, blackPlayer, id, game);
+    var session = new Session(id, game);
 
     idToSession.put(id, session);
 

@@ -1,13 +1,20 @@
 package core.userdb;
 
-public class User {
+import core.checkers.IGame;
+import core.checkers.players.IPlayer;
+import core.checkers.primitives.Turn;
+import core.tools.CoreException;
+
+public class User implements IPlayer {
 
   private final String name;
   private int score;
+  private Turn nextTurn;
 
   public User(String name) {
     this.name = name;
     score = 0;
+    nextTurn = null;
   }
 
   public String getName() {
@@ -49,5 +56,27 @@ public class User {
   @Override
   public String toString() {
     return name;
+  }
+
+  @Override
+  public void setGame(IGame game) {
+  }
+
+  @Override
+  public boolean haveNextTurn() {
+    return nextTurn != null;
+  }
+
+  @Override
+  public Turn getNextTurn() throws CoreException {
+    if (nextTurn == null) {
+      throw new CoreException("No turn presented");
+    }
+
+    var turn = nextTurn;
+
+    nextTurn = null;
+
+    return turn;
   }
 }
