@@ -38,7 +38,6 @@ public class Checker {
     position = next;
   }
 
-
   public void setPosition(Vector vector) {
     if (vector.getY() < 0 || vector.getX() < 0 || vector.getZ() < 0) {
       throw new IllegalArgumentException();

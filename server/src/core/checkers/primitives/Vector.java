@@ -140,6 +140,14 @@ public class Vector {
         }
     }
 
+    public Vector getUnit() {
+        var signX = Integer.signum(x);
+        var signY = Integer.signum(y);
+        var signZ = Integer.signum(z);
+
+        return new Vector(signX, signY, signZ);
+    }
+
     private static String[] readNumbers(String string) {
         var index = 0;
 
