@@ -1,6 +1,5 @@
-package core.sessions;
+package core.userdb;
 
-import java.security.KeyException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,7 +17,7 @@ public class UserDataBase implements IUserDataBase {
     if (hasUser(name))
       return false;
 
-    nameToUser.put(name, new User(name));
+    nameToUser.put(name, new User(name, player));
 
     return true;
   }
@@ -34,9 +33,9 @@ public class UserDataBase implements IUserDataBase {
   }
 
   @Override
-  public User getUser(String name) throws KeyException {
+  public User getUser(String name) throws UserDataBaseException {
     if (!hasUser(name))
-      throw new KeyException(String.format("No such user: %s", name));
+      throw new UserDataBaseException(String.format("No such user: %s", name));
 
     return nameToUser.get(name);
   }

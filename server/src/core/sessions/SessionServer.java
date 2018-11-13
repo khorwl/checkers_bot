@@ -2,6 +2,7 @@ package core.sessions;
 
 import core.checkers.IGame;
 import core.checkers.IGameFactory;
+import core.userdb.User;
 import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
