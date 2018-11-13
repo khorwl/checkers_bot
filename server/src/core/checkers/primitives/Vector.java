@@ -23,7 +23,9 @@ public class Vector {
         this.z = z;
     }
 
-    public static Vector create(int x, int y, int z) { return new Vector(x, y, z); }
+    public static Vector create(int x, int y, int z) {
+        return new Vector(x, y, z);
+    }
 
     public static Vector createRandom(int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
         var y = random.nextInt(Math.abs(maxY - minY)) + minY;
@@ -76,15 +78,35 @@ public class Vector {
     }
 
     public Vector add(Vector vector) {
-        return new Vector(x + vector.x, y + vector.y, z + vector.z);
+        var v = new Vector(x + vector.x, y + vector.y, z + vector.z);
+
+        if (!v.inBoard())
+            throw new IndexOutOfBoundsException();
+
+        return v;
     }
 
     public Vector sub(Vector vector) {
-        return new Vector(x - vector.x, y - vector.y, z - vector.z);
+        var v = new Vector(x - vector.x, y - vector.y, z - vector.z);
+
+        if (!v.inBoard())
+            throw new IndexOutOfBoundsException();
+
+        return v;
     }
 
     public Vector mul(int k) {
-        return new Vector(x * k, y * k, z * k);
+        var v = new Vector(x * k, y * k, z * k);
+
+        if (!v.inBoard())
+            throw new IndexOutOfBoundsException();
+
+        return v;
+    }
+
+
+    public boolean inBoard() {
+        return x > 0 && y > 0 && z > 0 && x < 8 && y < 8 && z < 8;
     }
 
     public int getManhattanLength() {

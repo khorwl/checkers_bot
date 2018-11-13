@@ -9,28 +9,26 @@ import java.util.stream.Collectors;
 
 public class GameState {
   private GameProgress progress;
-  private List<Checker> checkers;
   private Color nextTurnOrder;
 
-  public GameState(List<Checker> checkers) {
-    this.checkers = checkers;
+  public GameState() {
     nextTurnOrder = Color.WHITE;
     progress = GameProgress.IN_PROGRESS;
   }
 
-  public List<Checker> checkers() {
-    return checkers;
+  public GameProgress getProgress() {
+    return progress;
   }
 
-  public Collection<Checker> whiteCheckers() {
-    return getCheckersWithColor(Color.WHITE);
+  public void setProgress(GameProgress progress){
+    this.progress = progress;
   }
 
-  public Collection<Checker> blackCheckers() {
-    return getCheckersWithColor(Color.BLACK);
+  public Color getNextTurnOrder() {
+    return nextTurnOrder;
   }
 
-  private Collection<Checker> getCheckersWithColor(Color color) {
-    return checkers.stream().filter(ch -> ch.getColor() == color).collect(Collectors.toList());
+  public void changeNextTurnOrder(){
+    nextTurnOrder = nextTurnOrder == Color.BLACK ? Color.WHITE : Color.BLACK;
   }
 }

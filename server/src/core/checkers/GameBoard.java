@@ -108,7 +108,7 @@ public class GameBoard {
         if (checker.getRank() == Rank.SOLDIER && Math.abs(delta.getY()) != 1)
             return false;
 
-        if (nextPosition.getY() < 0 || nextPosition.getX() < 0 || nextPosition.getZ() < 0)
+        if (!nextPosition.inBoard())
             return false;
 
         return isFreeCell(nextPosition);
