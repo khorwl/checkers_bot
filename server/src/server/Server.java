@@ -6,7 +6,7 @@ import core.sessions.ISessionServer;
 import core.userdb.IUserDataBase;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import server.handlers.HomeHandler;
+import server.handlers.Home;
 import tools.QueryParser;
 
 public class Server {
@@ -32,7 +32,7 @@ public class Server {
 
     HttpServer httpServer = HttpServer.create(address, 0);
 
-    httpServer.createContext("/", new HomeHandler(queryParser, userDataBase, sessionServer, playerQueue));
+    httpServer.createContext("/", new Home(queryParser, userDataBase, sessionServer, playerQueue));
     httpServer.setExecutor(null);
 
     httpServer.start();
