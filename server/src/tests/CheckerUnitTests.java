@@ -6,11 +6,42 @@ import core.checkers.primitives.Rank;
 import core.checkers.primitives.Vector;
 import org.junit.jupiter.api.Test;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckerUnitTests {
+
+    @Test
+    void equals_compareWithNotChecker_shouldReturnFalse(){
+        var notCh= 10;
+        var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
+
+        assertFalse(ch.equals(notCh));
+    }
+
+
+    @Test
+    void equals_compareWithSelf_shouldReturnTrue(){
+        var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
+
+        assertTrue(ch.equals(ch));
+    }
+
+    @Test
+    void equals_compareEqualsCheckers_shouldReturnTrue(){
+        var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
+        var ch2 = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
+
+        assertTrue(ch.equals(ch2));
+    }
+
+    @Test
+    void equals_compareDiffCheckers_shouldReturnFalse(){
+        var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
+        var ch2 = new Checker(new Vector(2, 1, 2), Color.WHITE, Rank.SOLDIER);
+
+        assertFalse(ch.equals(ch2));
+    }
+
 
     @Test
     void getColor_gettingColorByWhiteChecher_shouldReturnRightValue() {
