@@ -4,7 +4,9 @@ import com.sun.net.httpserver.HttpServer;
 import core.ICheckersServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import server.handlers.Delete;
 import server.handlers.Home;
+import server.handlers.Register;
 import tools.QueryParser;
 
 public class Server {
@@ -25,6 +27,8 @@ public class Server {
     HttpServer httpServer = HttpServer.create(address, 0);
 
     httpServer.createContext("/", new Home(queryParser, server));
+    httpServer.createContext("/register", new Register(queryParser, server));
+    httpServer.createContext("/delete", new Delete(queryParser, server));
     httpServer.setExecutor(null);
 
     httpServer.start();
