@@ -5,12 +5,15 @@ import java.security.KeyException;
 import java.util.List;
 
 public interface ISessionServer {
-  Session createSession(User whiteUser, User blackUser);
-  Session createAISessionForWhite(User user);
-  Session createAISessionForBlack(User user);
+  Session createSession(User whiteUser, User blackUser) throws SessionServerException;
+  Session createAISessionForWhite(User user) throws SessionServerException;
+  Session createAISessionForBlack(User user) throws SessionServerException;
   List<Session> getSessions();
-  Session getSession(String sessionId) throws KeyException;
-  void endSession(Session session) throws KeyException;
-  void endSession(String sessionId) throws KeyException;
+  Session getSession(String sessionId) throws SessionServerException;
+  Session getSessionOrNull(String sessionId);
+  Session getSessionWithUserOrNull(User user);
+  boolean hasSessionWithUser(User user);
+  void endSession(Session session) throws SessionServerException;
+  void endSession(String sessionId) throws SessionServerException;
   boolean hasSession(String sessionId);
 }

@@ -1,9 +1,7 @@
 package server;
 
 import com.sun.net.httpserver.HttpServer;
-import core.queue.IPlayerQueue;
-import core.sessions.ISessionServer;
-import core.userdb.IUserDataBase;
+import core.ICheckersServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import server.handlers.Home;
@@ -11,17 +9,11 @@ import tools.QueryParser;
 
 public class Server {
   private final QueryParser queryParser;
-  private final IUserDataBase userDataBase;
-  private final ISessionServer sessionServer;
-  private final IPlayerQueue playerQueue;
+  private final ICheckersServer server;
 
-  public Server(
-      IUserDataBase userDataBase,
-      ISessionServer sessionServer,
-      IPlayerQueue playerQueue) {
-    this.userDataBase = userDataBase;
-    this.sessionServer = sessionServer;
-    this.playerQueue = playerQueue;
+  public Server(ICheckersServer server) {
+    this.server = server;
+
     queryParser = new QueryParser();
   }
 
@@ -32,7 +24,7 @@ public class Server {
 
     HttpServer httpServer = HttpServer.create(address, 0);
 
-    httpServer.createContext("/", new Home(queryParser, userDataBase, sessionServer, playerQueue));
+    httpServer.createContext("/", new Home(queryParser, server));
     httpServer.setExecutor(null);
 
     httpServer.start();

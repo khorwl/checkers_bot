@@ -34,9 +34,16 @@ public class UserDataBase implements IUserDataBase {
 
   @Override
   public User getUser(String name) throws UserDataBaseException {
-    if (!hasUser(name))
+    var user = getUserOrNull(name);
+
+    if (user == null)
       throw new UserDataBaseException(String.format("No such user: %s", name));
 
+    return user;
+  }
+
+  @Override
+  public User getUserOrNull(String name) {
     return nameToUser.get(name);
   }
 

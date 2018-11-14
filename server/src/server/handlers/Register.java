@@ -1,21 +1,24 @@
 package server.handlers;
 
-import core.queue.IPlayerQueue;
-import core.sessions.ISessionServer;
-import core.userdb.IUserDataBase;
+import core.ICheckersServer;
+import server.HttpStatusCode;
 import server.Request;
 import server.Response;
 import tools.QueryParser;
 
 public class Register extends CommandHandler {
 
-  public Register(QueryParser queryParser, IUserDataBase userDataBase,
-      ISessionServer sessionServer, IPlayerQueue playerQueue) {
-    super(queryParser, userDataBase, sessionServer, playerQueue);
+  public Register(QueryParser queryParser, ICheckersServer server) {
+    super(queryParser, server);
   }
 
   @Override
   public Response handleRequest(Request request) {
-    return null;
+    var name = request.getParameterOrNull("name");
+
+    if (name == null)
+      return new Response("Invalid query", HttpStatusCode.BadRequest);
+
+    return new Response(Boolean.toString(server.userDataBase().register(name)), HttpStatusCode.OK);
   }
 }
