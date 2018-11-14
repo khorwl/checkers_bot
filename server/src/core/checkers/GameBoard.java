@@ -59,6 +59,9 @@ public class GameBoard {
     private boolean isValidCutDown(Checker checker, Vector delta) {
         var nextPosition = checker.getPosition().add(delta);
 
+        if(!nextPosition.inBoard())
+            return false;
+
         if (checker.getRank() == Rank.SOLDIER && ((Math.abs(delta.getY()) != 2)))
             return false;
 

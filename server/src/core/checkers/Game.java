@@ -3,6 +3,7 @@ package core.checkers;
 import core.checkers.players.IPlayer;
 import core.checkers.primitives.Color;
 import core.checkers.primitives.TurnStatus;
+import core.tools.CoreException;
 
 public class Game implements IGame {
     private final IPlayer whitePlayer;
@@ -30,9 +31,16 @@ public class Game implements IGame {
         if (!player.haveNextTurn())
             return TurnStatus.NO_TURN;
 
-        var turn = player.getNextTurn();
-
-        return board.makeMove(turn.from(), turn.to());
+        try {
+            var turn = player.getNextTurn();
+            if (board.makeMove(turn.from(), turn.to()) == TurnStatus.SUCCESS) {
+                state.changeNextTurnOrder();
+                return TurnStatus.SUCCESS;
+            }
+            return TurnStatus.FAIL;
+        } catch (CoreException e) {
+            return TurnStatus.FAIL;
+        }
     }
 
     @Override
