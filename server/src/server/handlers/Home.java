@@ -1,8 +1,6 @@
 package server.handlers;
 
-import core.queue.IPlayerQueue;
-import core.sessions.ISessionServer;
-import core.userdb.IUserDataBase;
+import core.ICheckersServer;
 import server.HttpStatusCode;
 import server.Request;
 import server.Response;
@@ -10,9 +8,8 @@ import tools.QueryParser;
 
 public class Home extends CommandHandler {
 
-  public Home(QueryParser queryParser, IUserDataBase userDataBase,
-      ISessionServer sessionServer, IPlayerQueue playerQueue) {
-    super(queryParser, userDataBase, sessionServer, playerQueue);
+  public Home(QueryParser queryParser, ICheckersServer server) {
+    super(queryParser, server);
   }
 
   @Override

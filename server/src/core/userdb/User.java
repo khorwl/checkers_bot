@@ -6,7 +6,6 @@ import core.checkers.primitives.Turn;
 import core.tools.CoreException;
 
 public class User implements IPlayer {
-
   private final String name;
   private int score;
   private Turn nextTurn;

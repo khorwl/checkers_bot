@@ -12,30 +12,52 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SessionServer implements ISessionServer {
+
   private final IGameFactory gameFactory;
   private final Map<String, Session> idToSession;
+  private final Map<User, String> userToCurrentSessionId;
 
   public SessionServer(IGameFactory gameFactory) {
     this.gameFactory = gameFactory;
     idToSession = new HashMap<>();
+    userToCurrentSessionId = new HashMap<>();
   }
 
   @Override
-  public Session createSession(User whiteUser, User blackUser) {
+  public Session createSession(User whiteUser, User blackUser) throws SessionServerException {
+    if (hasSessionWithUser(whiteUser)) {
+      throwAlreadyHaveSession(whiteUser);
+    }
+
+    if (hasSessionWithUser(blackUser)) {
+      throwAlreadyHaveSession(whiteUser);
+    }
+
     var game = gameFactory.createGame(whiteUser, blackUser);
+    var session = createSessionForGame(game);
 
-    return createSessionForGame(game);
+    userToCurrentSessionId.put(whiteUser, session.getId());
+    userToCurrentSessionId.put(blackUser, session.getId());
+
+    return session;
   }
 
   @Override
-  public Session createAISessionForWhite(User user) {
+  public Session createAISessionForWhite(User user) throws SessionServerException {
+    if (hasSessionWithUser(user)) {
+      throwAlreadyHaveSession(user);
+    }
+
     var game = gameFactory.createGame(user, new EasyAIPlayer());
 
     return createSessionForGame(game);
   }
 
   @Override
-  public Session createAISessionForBlack(User user) {
+  public Session createAISessionForBlack(User user) throws SessionServerException {
+    if (hasSessionWithUser(user))
+      throwAlreadyHaveSession(user);
+
     var game = gameFactory.createGame(new EasyAIPlayer(), user);
 
     return createSessionForGame(game);
@@ -56,22 +78,57 @@ public class SessionServer implements ISessionServer {
   }
 
   @Override
-  public Session getSession(String sessionId) throws KeyException {
-    if (!idToSession.containsKey(sessionId))
-      throwNotThatSessionException(sessionId);
+  public Session getSession(String sessionId) throws SessionServerException {
+    var session = getSessionOrNull(sessionId);
 
+    if (session == null) {
+      throwNotThatSessionException(sessionId);
+    }
+
+    return session;
+  }
+
+  @Override
+  public Session getSessionOrNull(String sessionId) {
     return idToSession.get(sessionId);
   }
 
   @Override
-  public void endSession(Session session) throws KeyException {
+  public Session getSessionWithUserOrNull(User user) {
+    var id = userToCurrentSessionId.get(user);
+
+    if (id == null)
+      return null;
+
+    return idToSession.get(id);
+  }
+
+  @Override
+  public boolean hasSessionWithUser(User user) {
+    return userToCurrentSessionId.containsKey(user);
+  }
+
+  @Override
+  public void endSession(Session session) throws SessionServerException {
     endSession(session.getId());
   }
 
   @Override
-  public void endSession(String sessionId) throws KeyException {
-    if (!idToSession.containsKey(sessionId))
+  public void endSession(String sessionId) throws SessionServerException {
+    var session = idToSession.get(sessionId);
+
+    if (session == null) {
       throwNotThatSessionException(sessionId);
+    }
+
+    var whitePlayer = session.getGame().getWhitePlayer();
+    var blackPlayer = session.getGame().getBlackPlayer();
+
+    if (whitePlayer instanceof User)
+      userToCurrentSessionId.remove(whitePlayer);
+
+    if (blackPlayer instanceof User)
+      userToCurrentSessionId.remove(blackPlayer);
 
     idToSession.remove(sessionId);
   }
@@ -81,7 +138,11 @@ public class SessionServer implements ISessionServer {
     return idToSession.containsKey(sessionId);
   }
 
-  private void throwNotThatSessionException(String id) throws KeyException {
-    throw new KeyException(String.format("No that session with id: %s", id));
+  private void throwNotThatSessionException(String id) throws SessionServerException {
+    throw new SessionServerException(String.format("No that session with id: %s", id));
+  }
+
+  private void throwAlreadyHaveSession(User user) throws SessionServerException {
+    throw new SessionServerException(String.format("User %s already have session", user.getName()));
   }
 }

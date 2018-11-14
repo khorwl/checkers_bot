@@ -7,6 +7,7 @@ import core.checkers.IGame;
 import core.checkers.IGameFactory;
 import core.sessions.Session;
 import core.sessions.SessionServer;
+import core.sessions.SessionServerException;
 import core.userdb.User;
 import java.security.KeyException;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class SessionServerUnitTests {
+
   private SessionServer server;
   private IGameFactory gameFactory;
   private User white, black, whiteOther, blackOther;
@@ -31,19 +33,7 @@ public class SessionServerUnitTests {
   }
 
   @Test
-  public void createSession_shouldReturnSessionsWithDifferentIds() {
-    var idSet = new HashSet<>();
-
-    for (var i = 0; i < 1000; i++)
-    {
-      idSet.add(server.createSession(white, black).getId());
-    }
-
-    assertEquals(1000, idSet.size());
-  }
-
-  @Test
-  public void getSessions_shouldReturnRightSessionList() {
+  public void getSessions_shouldReturnRightSessionList() throws SessionServerException {
     var s1 = server.createSession(white, black);
     var s2 = server.createSession(whiteOther, blackOther);
     var expected_ = new ArrayList<Session>();
@@ -57,7 +47,7 @@ public class SessionServerUnitTests {
   }
 
   @Test
-  public void getSession_shouldReturnRightSession() throws KeyException {
+  public void getSession_shouldReturnRightSession() throws SessionServerException {
     var s = server.createSession(white, black);
 
     var sut = server.getSession(s.getId());
@@ -66,17 +56,21 @@ public class SessionServerUnitTests {
   }
 
   @Test
-  public void getSession_withUnknownSessionId_shouldThrowKeyException() {
-    assertThrows(KeyException.class, () -> server.getSession("my_id"));
+  public void getSession_withUnknownSessionId_shouldThrowSessionServerException() {
+    assertThrows(SessionServerException.class, () -> server.getSession("my_id"));
   }
 
   @Test
-  public void endSession_withUnknownSessionId_shouldThrowKeyException() {
-    assertThrows(KeyException.class, () -> server.endSession("mu"));
+  public void endSession_withUnknownSessionId_shouldThrowSessionServerException() {
+    assertThrows(SessionServerException.class, () -> server.endSession("mu"));
   }
 
   @Test
-  public void endSession_shouldDeleteSession() throws KeyException {
+  public void endSession_shouldDeleteSession() throws SessionServerException {
+    var game = mock(IGame.class);
+    when(game.getWhitePlayer()).thenReturn(white);
+    when(game.getBlackPlayer()).thenReturn(black);
+    when(gameFactory.createGame(any(), any())).thenReturn(game);
     var s = server.createSession(white, black);
 
     server.endSession(s.getId());
@@ -85,14 +79,14 @@ public class SessionServerUnitTests {
   }
 
   @Test
-  public void createSession_shouldCallGameFactory() {
+  public void createSession_shouldCallGameFactory() throws SessionServerException {
     server.createSession(null, null);
 
     verify(gameFactory, times(1)).createGame(any(), any());
   }
 
   @Test
-  public void createSession_shouldReturnSessionWithGameFromFactory() {
+  public void createSession_shouldReturnSessionWithGameFromFactory() throws SessionServerException {
     var game = mock(IGame.class);
     when(gameFactory.createGame(any(), any())).thenReturn(game);
 
@@ -102,14 +96,63 @@ public class SessionServerUnitTests {
   }
 
   @Test
-  public void createSession_shouldReturnSessionsWithUniqualIds() {
+  public void createSession_shouldReturnSessionsWithUniqualIds() throws SessionServerException {
     var ids = new HashSet<String>();
     var testNum = 100000;
 
     for (var i = 0; i < testNum; i++) {
-      ids.add(server.createSession(null, null).getId());
+      User whiteUser = new User(Integer.toString(2 * i + 1));
+      User blackUser = new User(Integer.toString(2 * i + 2));
+      ids.add(server.createSession(whiteUser, blackUser).getId());
     }
 
     assertEquals(testNum, ids.size());
+  }
+
+  @Test
+  public void createSession_alreadyHaveSessionWithThatUser_shouldThrowSessionServerError()
+      throws SessionServerException {
+    server.createSession(white, black);
+
+    assertThrows(SessionServerException.class, () -> server.createSession(white, null));
+  }
+
+  @Test
+  public void createSession_withUserThatEndedPreviousSession_shouldReturnRightSession()
+      throws SessionServerException {
+    var game = mock(IGame.class);
+    when(game.getWhitePlayer()).thenReturn(white);
+    when(game.getBlackPlayer()).thenReturn(black);
+    when(gameFactory.createGame(any(), any())).thenReturn(game);
+    var s = server.createSession(white, black);
+    server.endSession(s);
+
+    assertDoesNotThrow(() -> server.createSession(white, black));
+  }
+
+  @Test
+  public void hasSessionWithUser_ifNoSessionWithThatUser_shouldReturnFalse() {
+    assertFalse(server.hasSessionWithUser(white));
+  }
+
+  @Test
+  public void hasSessionWithUser_ifThereIsSessionWithThatUser_shouldReturnTrue()
+      throws SessionServerException {
+    server.createSession(white, black);
+
+    assertTrue(server.hasSessionWithUser(black));
+  }
+
+  @Test
+  public void getSessionWithUserOrNull_ifNoSessionWithThatUser_shouldReturnNull() {
+    assertNull(server.getSessionWithUserOrNull(white));
+  }
+
+  @Test
+  public void getSessionWithUserOrNull_ifThereIsSessionWithThatUser_shouldReturnRightSession()
+      throws SessionServerException {
+    var s = server.createSession(white, black);
+
+    assertEquals(s, server.getSessionWithUserOrNull(black));
   }
 }
