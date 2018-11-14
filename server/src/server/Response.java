@@ -38,4 +38,11 @@ public class Response {
   public int hashCode() {
     return body.hashCode() ^ Integer.hashCode(statusCode);
   }
+
+  @Override
+  public String toString() {
+    var body = this.body.length() < 50 ? this.body : this.body.substring(0, 47) + "...";
+
+    return String.format("Response: %d %s", statusCode, body);
+  }
 }
