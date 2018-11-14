@@ -7,14 +7,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameBoard {
-    private ArrayList<Checker> checkers;
+    private HashSet<Checker> checkers;
 
 
-    public GameBoard(ArrayList<Checker> locationCheckers) {
+    public GameBoard(HashSet<Checker> locationCheckers) {
         this.checkers = locationCheckers;
     }
 
-    public ArrayList getCheckers() {
+    public HashSet getCheckers() {
         return checkers;
     }
 
@@ -42,7 +42,7 @@ public class GameBoard {
         if (isValidCutDown(checker, delta)) {
             var enemyChecker = getCheckersOnWay(checker.getPosition(), delta);
             checkers.remove(enemyChecker);
-            checker.move(delta);
+            moveChecker(checker, delta);
             return TurnStatus.SUCCESS;
         }
         return TurnStatus.FAIL;
@@ -101,7 +101,7 @@ public class GameBoard {
         if (!isValidStep(checker, delta))
             return TurnStatus.FAIL;
 
-        checker.move(delta);
+        moveChecker(checker, delta);
         return TurnStatus.SUCCESS;
     }
 
@@ -127,5 +127,10 @@ public class GameBoard {
 
     private boolean haveCheckerIn(Vector cords) {
         return checkers.stream().filter(ch -> ch.getPosition().equals(cords)).count() == 1;
+    }
+
+    private void moveChecker(Checker ch, Vector delta){
+        checkers.add(ch.move(delta));
+        checkers.remove(ch);
     }
 }

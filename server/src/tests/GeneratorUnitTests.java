@@ -93,7 +93,7 @@ public class GeneratorUnitTests {
                 ch5, ch50, ch51, ch52, ch53, ch54, ch55, ch56, ch57, ch58, ch59,
                 ch6, ch7, ch8, ch9, ch60, ch61, ch62, ch63, ch64));
         var gen = new Generator();
-        var actual = new HashSet<Checker>(gen.getStartCheckers());
+        var actual = gen.getStartCheckers();
 
         assertEquals(expected.size(), actual.size());
         for (var ch : expected) {
