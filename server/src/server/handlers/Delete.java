@@ -1,7 +1,6 @@
 package server.handlers;
 
 import core.ICheckersServer;
-import core.sessions.SessionServerException;
 import server.HttpStatusCode;
 import server.Request;
 import server.Response;
