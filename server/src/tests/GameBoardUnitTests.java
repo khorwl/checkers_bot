@@ -17,7 +17,7 @@ public class GameBoardUnitTests {
     private final GameBoard board = new GameBoard(checkers);
 
     @Test
-    void makeMove_makeStep_shouldReturnRightTurnStatus() {
+    void makeMove_makeValidStep_shouldReturnRightTurnStatus() {
         var expected = TurnStatus.SUCCESS;
         var actual = board.makeMove(new Vector(5, 4, 0), new Vector(5, 5, 1));
         var ch = new Checker(new Vector(5, 5, 1), Color.WHITE, Rank.SOLDIER);
@@ -27,12 +27,9 @@ public class GameBoardUnitTests {
     }
 
     @Test
-    void getCheckers_shouldReturnRightChechers() {
+    void getCheckers_gettingAfterStep_shouldReturnRightChechers() {
         board.makeMove(new Vector(5, 4, 0), new Vector(5, 5, 1));
         var ch = new Checker(new Vector(5, 5, 1), Color.WHITE, Rank.SOLDIER);
-
-        for(var chi: board.getCheckers())
-            System.out.println(chi);
 
         assertTrue(board.getCheckers().contains(ch));
 
@@ -40,12 +37,5 @@ public class GameBoardUnitTests {
     }
 
 
-//    @Test
-//    void makeMove_makeStepNotFreeCell_shouldReturnRightTurnStatus() {
-//        var expected = TurnStatus.FAIL;
-//        var actual = board.makeMove(new Vector(5, 5, 1), new Vector(5, 6, 0));
-//
-//        assertEquals(expected, actual);
-//    }
 
 }

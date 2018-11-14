@@ -11,23 +11,22 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CheckerUnitTests {
 
     @Test
-    void equals_compareWithNotChecker_shouldReturnFalse(){
-        var notCh= 10;
+    void equals_compareWithNotChecker_shouldReturnFalse() {
+        var notCh = 10;
         var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
 
         assertFalse(ch.equals(notCh));
     }
 
-
     @Test
-    void equals_compareWithSelf_shouldReturnTrue(){
+    void equals_compareWithSelf_shouldReturnTrue() {
         var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
 
         assertTrue(ch.equals(ch));
     }
 
     @Test
-    void equals_compareEqualsCheckers_shouldReturnTrue(){
+    void equals_compareEqualsCheckers_shouldReturnTrue() {
         var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
         var ch2 = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
 
@@ -35,13 +34,12 @@ public class CheckerUnitTests {
     }
 
     @Test
-    void equals_compareDiffCheckers_shouldReturnFalse(){
+    void equals_compareDiffCheckers_shouldReturnFalse() {
         var ch = new Checker(new Vector(1, 1, 2), Color.WHITE, Rank.SOLDIER);
         var ch2 = new Checker(new Vector(2, 1, 2), Color.WHITE, Rank.SOLDIER);
 
         assertFalse(ch.equals(ch2));
     }
-
 
     @Test
     void getColor_gettingColorByWhiteChecher_shouldReturnRightValue() {
@@ -94,7 +92,7 @@ public class CheckerUnitTests {
     }
 
     @Test
-    void move_movingNegativeCords_shouldThrowException(){
+    void move_movingNegativeCords_shouldThrowException() {
         var checker = new Checker(new Vector(1, 6, 4), Color.BLACK, Rank.SOLDIER);
         var delta = new Vector(-2, 7, 1);
 
@@ -102,7 +100,7 @@ public class CheckerUnitTests {
     }
 
     @Test
-    void move_movingCordsOutRange_shouldThrowException(){
+    void move_movingCordsOutRange_shouldThrowException() {
         var checker = new Checker(new Vector(1, 6, 4), Color.BLACK, Rank.SOLDIER);
         var delta = new Vector(2, 2, -1);
 
@@ -110,7 +108,7 @@ public class CheckerUnitTests {
     }
 
     @Test
-    void move_movingByValidCords_shouldReturnRightValue(){
+    void move_movingByValidCords_shouldReturnRightValue() {
         var checker = new Checker(new Vector(1, 6, 7), Color.WHITE, Rank.SOLDIER);
         var delta = new Vector(-1, -3, 0);
         var expected = new Vector(0, 3, 7);
