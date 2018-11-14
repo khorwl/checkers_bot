@@ -125,8 +125,7 @@ public class PlayerQueueUnitTests {
 
     var pair = q.dequeuePair();
 
-    if (!pair.equals(Pair.create(user, user2)) && !pair.equals(Pair.create(user2, user)))
-      fail();
+    assertEquals(Pair.create(user, user2), pair);
   }
 }
 
