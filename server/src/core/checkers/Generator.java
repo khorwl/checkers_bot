@@ -19,20 +19,30 @@ public class Generator {
     private ArrayList<Checker> generateCheckersPlayer(Color color) {
         var checkers = new ArrayList();
 
-        var z = color == Color.WHITE ? 0 : 8;
+        var z = color == Color.WHITE ? 0 : 7;
 
         for (var i = 0; i < Constants.size; i++) {
             for (var j = 0; j < Constants.size; j++) {
                 if (i % 2 == 0) {
-                    if (j % 2 == 0)
-                        continue;
-                    else
-                        checkers.add(new Checker(new Vector(j, i, z), color, Rank.SOLDIER));
+                    if (j % 2 == 0) {
+                        if (color == Color.WHITE)
+                            continue;
+                        checkers.add(new Checker(new Vector(j, i, z), Color.BLACK, Rank.SOLDIER));
+                    } else {
+                        if (color == Color.BLACK)
+                            continue;
+                        checkers.add(new Checker(new Vector(j, i, z), Color.WHITE, Rank.SOLDIER));
+                    }
                 } else {
-                    if (j % 2 == 0)
-                        checkers.add(new Checker(new Vector(j, i, z), color, Rank.SOLDIER));
-                    else
-                        continue;
+                    if (j % 2 == 0) {
+                        if (color == Color.BLACK)
+                            continue;
+                        checkers.add(new Checker(new Vector(j, i, z), Color.WHITE, Rank.SOLDIER));
+                    } else {
+                        if (color == Color.WHITE)
+                            continue;
+                        checkers.add(new Checker(new Vector(j, i, z), Color.BLACK, Rank.SOLDIER));
+                    }
                 }
             }
         }

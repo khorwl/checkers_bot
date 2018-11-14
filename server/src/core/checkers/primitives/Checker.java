@@ -46,4 +46,31 @@ public class Checker {
         position = vector;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof Checker) {
+            var other = (Checker) obj;
+            return color == other.color && rank == other.rank && position.equals(other.position);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (color.hashCode() *1033) ^ rank.hashCode() ^ position.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Checker %s %s at %s", color.toString(), rank.toString(), position.toString());
+    }
 }
