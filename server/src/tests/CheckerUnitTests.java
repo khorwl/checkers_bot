@@ -94,33 +94,6 @@ public class CheckerUnitTests {
     }
 
     @Test
-    void setPosition_settingByValidCords_shouldReturnRightValue(){
-        var checker = new Checker(new Vector(1, 6, 4), Color.BLACK, Rank.SOLDIER);
-        var expected = new Vector(5, 7, 3);
-
-        checker.setPosition(expected);
-        var actual =  checker.getPosition();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void setPosition_settingByNegativeCords_shouldThrowException(){
-        var checker = new Checker(new Vector(1, 6, 6), Color.WHITE, Rank.SOLDIER);
-        var nextPosition = new Vector(-1, 7, 0);
-
-        assertThrows(IllegalArgumentException.class, () -> checker.setPosition(nextPosition));
-    }
-
-    @Test
-    void setPosition_settingCordsOutRange_shouldThrowException(){
-        var checker = new Checker(new Vector(1, 6, 6), Color.WHITE, Rank.SOLDIER);
-        var nextPosition = new Vector(8, 7, 0);
-
-        assertThrows(IllegalArgumentException.class, () -> checker.setPosition(nextPosition));
-    }
-
-    @Test
     void move_movingNegativeCords_shouldThrowException(){
         var checker = new Checker(new Vector(1, 6, 4), Color.BLACK, Rank.SOLDIER);
         var delta = new Vector(-2, 7, 1);
@@ -142,8 +115,7 @@ public class CheckerUnitTests {
         var delta = new Vector(-1, -3, 0);
         var expected = new Vector(0, 3, 7);
 
-        checker.move(delta);
-        var actual =  checker.getPosition();
+        var actual = checker.move(delta).getPosition();
 
         assertEquals(expected, actual);
     }

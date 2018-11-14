@@ -4,11 +4,12 @@ import core.checkers.players.IPlayer;
 import core.checkers.primitives.Checker;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class GameFactory implements IGameFactory {
     private final GameState state = new GameState();
     private final Generator generator = new Generator();
-    private final ArrayList<Checker> checkers = generator.getStartCheckers();
+    private final HashSet<Checker> checkers = generator.getStartCheckers();
     private final GameBoard board = new GameBoard(checkers);
 
     @Override

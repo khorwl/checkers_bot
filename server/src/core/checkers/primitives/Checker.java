@@ -2,9 +2,9 @@ package core.checkers.primitives;
 
 public class Checker {
 
-    private Vector position;
-    private Color color;
-    private Rank rank;
+    private final Vector position;
+    private final Color color;
+    private final Rank rank;
 
     public Checker(Vector vector, Color color, Rank rank) {
         if (!vector.inBoard()) {
@@ -28,22 +28,13 @@ public class Checker {
         return rank;
     }
 
-    public void move(Vector delta) {
+    public Checker move(Vector delta) {
         var next = position.add(delta);
 
         if (!next.inBoard()) {
             throw new IllegalArgumentException();
         }
-
-        position = next;
-    }
-
-    public void setPosition(Vector vector) {
-        if (!vector.inBoard()) {
-            throw new IllegalArgumentException();
-        }
-
-        position = vector;
+        return new Checker(next, color, rank);
     }
 
     @Override

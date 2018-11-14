@@ -6,18 +6,19 @@ import core.checkers.primitives.Rank;
 import core.checkers.primitives.Vector;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Generator {
 
-    public ArrayList<Checker> getStartCheckers() {
+    public HashSet<Checker> getStartCheckers() {
         var checkers = generateCheckersPlayer(Color.WHITE);
         checkers.addAll(generateCheckersPlayer(Color.BLACK));
 
         return checkers;
     }
 
-    private ArrayList<Checker> generateCheckersPlayer(Color color) {
-        var checkers = new ArrayList();
+    private HashSet<Checker> generateCheckersPlayer(Color color) {
+        var checkers = new HashSet();
 
         var z = color == Color.WHITE ? 0 : 7;
 
