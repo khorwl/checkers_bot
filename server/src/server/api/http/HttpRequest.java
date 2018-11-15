@@ -1,15 +1,15 @@
-package server;
+package server.api.http;
 
 import java.security.KeyException;
 import java.util.Collections;
 import java.util.Map;
 
-public class Request {
+public class HttpRequest {
 
   private final Map<String, String> queryToValue;
   private final String body;
 
-  public Request(String body, Map<String, String> queryToValue) {
+  public HttpRequest(String body, Map<String, String> queryToValue) {
     this.queryToValue = Collections.unmodifiableMap(queryToValue);
     this.body = body == null ? "" : body;
   }
@@ -44,8 +44,8 @@ public class Request {
       return true;
     }
 
-    if (obj instanceof Request) {
-      var other = (Request) obj;
+    if (obj instanceof HttpRequest) {
+      var other = (HttpRequest) obj;
 
       return body.equals(other.body) && queryToValue.equals(other.queryToValue);
     }

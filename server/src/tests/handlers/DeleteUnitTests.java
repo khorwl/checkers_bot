@@ -8,10 +8,10 @@ import core.userdb.User;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.HttpStatusCode;
-import server.Request;
-import server.Response;
-import server.handlers.Delete;
+import server.api.http.HttpResponse;
+import server.api.http.HttpStatusCode;
+import server.api.http.HttpRequest;
+import server.api.handlers.Delete;
 
 public class DeleteUnitTests extends HandlerTestCase {
 
@@ -24,8 +24,8 @@ public class DeleteUnitTests extends HandlerTestCase {
 
   @Test
   public void handleRequest_withInvalidQuery_shouldReturnInvalidQueryResponse() {
-    var request = new Request(null, Map.of("Name", "user"));
-    var expected = new Response("Invalid query", HttpStatusCode.BadRequest);
+    var request = new HttpRequest(null, Map.of("Name", "user"));
+    var expected = new HttpResponse("Invalid query", HttpStatusCode.BadRequest);
 
     var sut = delete.handleRequest(request);
 
@@ -34,8 +34,8 @@ public class DeleteUnitTests extends HandlerTestCase {
 
   @Test
   public void handleRequest_withUnexistingUser_shouldReturnFail() {
-    var request = new Request(null, Map.of("name", "user"));
-    var expected = new Response("false", HttpStatusCode.OK);
+    var request = new HttpRequest(null, Map.of("name", "user"));
+    var expected = new HttpResponse("false", HttpStatusCode.OK);
 
     var sut = delete.handleRequest(request);
 
@@ -45,8 +45,8 @@ public class DeleteUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_withExistingUserButThisUserHaveSession_shouldReturnFail() {
     when(sessionServer.hasSessionWithUser(any())).thenReturn(true);
-    var request = new Request(null, Map.of("name", "user"));
-    var expected = new Response("false", HttpStatusCode.OK);
+    var request = new HttpRequest(null, Map.of("name", "user"));
+    var expected = new HttpResponse("false", HttpStatusCode.OK);
 
     var sut = delete.handleRequest(request);
 
@@ -58,8 +58,8 @@ public class DeleteUnitTests extends HandlerTestCase {
     var user = new User("name");
     when(userDataBase.getUserOrNull(any())).thenReturn(user);
     when(userDataBase.delete(any())).thenReturn(true);
-    var request = new Request(null, Map.of("name", "name"));
-    var expected = new Response("true", HttpStatusCode.OK);
+    var request = new HttpRequest(null, Map.of("name", "name"));
+    var expected = new HttpResponse("true", HttpStatusCode.OK);
 
     var sut = delete.handleRequest(request);
 

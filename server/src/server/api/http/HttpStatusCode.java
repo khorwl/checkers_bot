@@ -1,4 +1,4 @@
-package server;
+package server.api.http;
 
 public class HttpStatusCode {
 

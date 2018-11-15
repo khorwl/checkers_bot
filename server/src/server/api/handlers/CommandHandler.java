@@ -1,12 +1,12 @@
-package server.handlers;
+package server.api.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import core.ICheckersServer;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import server.Request;
-import server.Response;
+import server.api.http.HttpResponse;
+import server.api.http.HttpRequest;
 import tools.QueryParser;
 
 public abstract class CommandHandler implements HttpHandler {
@@ -24,14 +24,15 @@ public abstract class CommandHandler implements HttpHandler {
     var bytes = body != null ? body.getBytes(StandardCharsets.UTF_8) : new byte[0];
 
     httpExchange.getResponseHeaders().add("encoding", "utf-8");
+    httpExchange.getResponseHeaders().add("Content-Type", "application/json");
     httpExchange.sendResponseHeaders(statusCode, bytes.length);
     httpExchange.getResponseBody().write(bytes);
     httpExchange.close();
   }
 
-  private void sendResponseAndClose(HttpExchange httpExchange, Response response)
+  private void sendResponseAndClose(HttpExchange httpExchange, HttpResponse httpResponse)
       throws IOException {
-    sendResponseAndClose(httpExchange, response.getBody(), response.getStatusCode());
+    sendResponseAndClose(httpExchange, httpResponse.getBody(), httpResponse.getStatusCode());
   }
 
   public final void handle(HttpExchange exchange) throws IOException {
@@ -42,12 +43,12 @@ public abstract class CommandHandler implements HttpHandler {
   }
 
 
-  private Request buildRequest(HttpExchange exchange) throws IOException {
+  private HttpRequest buildRequest(HttpExchange exchange) throws IOException {
     var body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
     var queryParams = queryParser.parseToMap(exchange.getRequestURI().getQuery());
 
-    return new Request(body, queryParams);
+    return new HttpRequest(body, queryParams);
   }
 
-  public abstract Response handleRequest(Request request);
+  public abstract HttpResponse handleRequest(HttpRequest httpRequest);
 }

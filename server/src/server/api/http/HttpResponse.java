@@ -1,10 +1,10 @@
-package server;
+package server.api.http;
 
-public class Response {
+public class HttpResponse {
   private final String body;
   private final int statusCode;
 
-  public Response(String body, int statusCode) {
+  public HttpResponse(String body, int statusCode) {
     this.body = body;
     this.statusCode = statusCode;
   }
@@ -25,8 +25,8 @@ public class Response {
     if (obj == this)
       return true;
 
-    if (obj instanceof Response) {
-      var other = (Response)obj;
+    if (obj instanceof HttpResponse) {
+      var other = (HttpResponse)obj;
 
       return body.equals(other.body) && statusCode == other.statusCode;
     }
@@ -43,6 +43,6 @@ public class Response {
   public String toString() {
     var body = this.body.length() < 50 ? this.body : this.body.substring(0, 47) + "...";
 
-    return String.format("Response: %d %s", statusCode, body);
+    return String.format("HttpResponse: %d %s", statusCode, body);
   }
 }
