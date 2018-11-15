@@ -4,9 +4,9 @@ import com.sun.net.httpserver.HttpServer;
 import core.ICheckersServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import server.api.handlers.Delete;
-import server.api.handlers.Home;
-import server.api.handlers.Register;
+import server.api.handlers.delete.Delete;
+import server.api.handlers.home.Home;
+import server.api.handlers.register.Register;
 import tools.QueryParser;
 
 public class Server {

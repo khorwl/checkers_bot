@@ -15,7 +15,8 @@ public class ResponseSerializerUnitTests {
     var expected =
         "{\n"
       + "  \"code\": \"FAIL\",\n"
-      + "  \"dataObject\": 5\n"
+      + "  \"dataObject\": 5,\n"
+      + "  \"message\": \"\"\n"
       + "}";
 
     var sut = ResponseSerializer.serializeToJson(response);
@@ -33,7 +34,8 @@ public class ResponseSerializerUnitTests {
       + "    5,\n"
       + "    7,\n"
       + "    14\n"
-      + "  ]\n"
+      + "  ],\n"
+      + "  \"message\": \"\"\n"
       + "}";
 
     var sut = ResponseSerializer.serializeToJson(response);
@@ -58,13 +60,14 @@ public class ResponseSerializerUnitTests {
     var response = Response.createInvalidRequest(new MyClass());
     var expected =
         "{\n"
-        + "  \"code\": \"INVALID_REQUEST\",\n"
-        + "  \"dataObject\": {\n"
-        + "    \"Field1\": 1488,\n"
-        + "    \"Field2\": 1337,\n"
-        + "    \"Field3\": 228\n"
-        + "  }\n"
-        + "}";
+      + "  \"code\": \"INVALID_REQUEST\",\n"
+      + "  \"dataObject\": {\n"
+      + "    \"Field1\": 1488,\n"
+      + "    \"Field2\": 1337,\n"
+      + "    \"Field3\": 228\n"
+      + "  },\n"
+      + "  \"message\": \"\"\n"
+      + "}";
 
     var sut = ResponseSerializer.serializeToJson(response);
 
@@ -77,7 +80,8 @@ public class ResponseSerializerUnitTests {
     var expected =
         "{\n"
       + "  \"code\": \"INTERNAL_SERVER_ERROR\",\n"
-      + "  \"dataObject\": null\n"
+      + "  \"dataObject\": null,\n"
+      + "  \"message\": \"\"\n"
       + "}";
 
     var sut = ResponseSerializer.serializeToJson(response);

@@ -7,14 +7,32 @@ public class Response<T> {
 
   private final ResponseCode code;
   private final T dataObject;
+  private final String message;
 
-  public Response(ResponseCode code, T dataObject) {
+  public Response(ResponseCode code, String message, T dataObject) {
     this.code = code;
     this.dataObject = dataObject;
+    this.message = message != null ? message : "";
   }
 
   public static <T> Response<T> create(ResponseCode code, T dataObject) {
-    return new Response<>(code, dataObject);
+    return new Response<>(code, "", dataObject);
+  }
+
+  public static <T> Response<T> createSuccess() {
+    return create(ResponseCode.SUCCESS, null);
+  }
+
+  public static <T> Response<T> createFail() {
+    return create(ResponseCode.FAIL, null);
+  }
+
+  public static <T> Response<T> createInternalError() {
+    return create(ResponseCode.INTERNAL_SERVER_ERROR, null);
+  }
+
+  public static <T> Response<T> createInvalidRequest() {
+    return create(ResponseCode.INVALID_REQUEST, null);
   }
 
   public static <T> Response<T> createSuccess(T dataObject) {
@@ -33,6 +51,26 @@ public class Response<T> {
     return create(ResponseCode.INVALID_REQUEST, dataObject);
   }
 
+  public static <T> Response<T> create(ResponseCode code, String message, T dataObject) {
+    return new Response<>(code, message, dataObject);
+  }
+
+  public static <T> Response<T> createSuccess(String message, T dataObject) {
+    return create(ResponseCode.SUCCESS, message, dataObject);
+  }
+
+  public static <T> Response<T> createFail(String message, T dataObject) {
+    return create(ResponseCode.FAIL, message, dataObject);
+  }
+
+  public static <T> Response<T> createInternalError(String message, T dataObject) {
+    return create(ResponseCode.INTERNAL_SERVER_ERROR, message, dataObject);
+  }
+
+  public static <T> Response<T> createInvalidRequest(String message, T dataObject) {
+    return create(ResponseCode.INVALID_REQUEST, message, dataObject);
+  }
+
   public ResponseCode getCode() {
     return code;
   }
@@ -40,6 +78,8 @@ public class Response<T> {
   public T getDataObject() {
     return dataObject;
   }
+
+  public String getMessage() { return message; }
 
   public HttpResponse toHttpResponse() {
     return toHttpResponse(HttpStatusCode.OK);
@@ -64,7 +104,10 @@ public class Response<T> {
     if (obj instanceof Response) {
       var other = (Response) obj;
 
-      return code.equals(other.code) && dataObject.equals(other.dataObject);
+      if (dataObject == null)
+        return other.dataObject == null;
+
+      return code.equals(other.code) && message.equals(other.message) && dataObject.equals(other.dataObject);
     }
 
     return false;
@@ -72,12 +115,12 @@ public class Response<T> {
 
   @Override
   public int hashCode() {
-    return code.hashCode() ^ dataObject.hashCode();
+    return (message.hashCode() * 1033) ^ code.hashCode() ^ dataObject.hashCode();
   }
 
   @Override
   public String toString() {
     return String
-        .format("Response with code: %s and object: %s", code.toString(), dataObject.toString());
+        .format("Response %s with code: %s and object: %s", message, code.toString(), dataObject.toString());
   }
 }

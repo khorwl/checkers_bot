@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import server.api.http.HttpResponse;
 import server.api.http.HttpRequest;
+import server.api.response.Response;
 import tools.QueryParser;
 
-public abstract class CommandHandler implements HttpHandler {
+public abstract class CommandHandler<T> implements HttpHandler {
 
   protected final QueryParser queryParser;
   protected final ICheckersServer server;
@@ -38,8 +39,9 @@ public abstract class CommandHandler implements HttpHandler {
   public final void handle(HttpExchange exchange) throws IOException {
     var request = buildRequest(exchange);
     var response = handleRequest(request);
+    var asHttp = response.toHttpResponse();
 
-    sendResponseAndClose(exchange, response);
+    sendResponseAndClose(exchange, asHttp);
   }
 
 
@@ -50,5 +52,5 @@ public abstract class CommandHandler implements HttpHandler {
     return new HttpRequest(body, queryParams);
   }
 
-  public abstract HttpResponse handleRequest(HttpRequest httpRequest);
+  public abstract Response<T> handleRequest(HttpRequest httpRequest);
 }

@@ -7,10 +7,9 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.api.http.HttpResponse;
-import server.api.http.HttpStatusCode;
+import server.api.handlers.register.Register;
 import server.api.http.HttpRequest;
-import server.api.handlers.Register;
+import server.api.response.Response;
 
 public class RegisterUnitTests extends HandlerTestCase {
   private Register register;
@@ -23,7 +22,7 @@ public class RegisterUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_noNameParameter_shouldReturnBadRequest() {
     var request = new HttpRequest(null, Map.of("namE", "u$ser"));
-    var expected = new HttpResponse("Invalid query", HttpStatusCode.BadRequest);
+    var expected = Response.createInvalidRequest("Invalid query", false);
 
     var sut = register.handleRequest(request);
 
@@ -34,7 +33,7 @@ public class RegisterUnitTests extends HandlerTestCase {
   public void handleRequest_registerOfUserDataBaseReturnsTrue_shouldReturnSuccessResponse() {
     when(userDataBase.register("username")).thenReturn(true);
     var request = new HttpRequest(null, Map.of("name", "username"));
-    var expected = new HttpResponse("true", HttpStatusCode.OK);
+    var expected = Response.createSuccess("Successfully register user username", true);
 
     var sut = register.handleRequest(request);
 
@@ -45,7 +44,7 @@ public class RegisterUnitTests extends HandlerTestCase {
   public void handleRequest_registerOfUserDataBaseReturnsFalse_shouldReturnFailResponse() {
     when(userDataBase.register(any())).thenReturn(false);
     var request = new HttpRequest(null, Map.of("name", "lol"));
-    var expected = new HttpResponse("false", HttpStatusCode.OK);
+    var expected = Response.createSuccess("Cant register user lol", false);
 
     var sut = register.handleRequest(request);
 

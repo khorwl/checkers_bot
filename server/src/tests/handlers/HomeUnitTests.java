@@ -7,10 +7,9 @@ import static org.mockito.Mockito.verify;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.api.http.HttpResponse;
-import server.api.http.HttpStatusCode;
+import server.api.handlers.home.Home;
 import server.api.http.HttpRequest;
-import server.api.handlers.Home;
+import server.api.response.Response;
 
 public class HomeUnitTests extends HandlerTestCase {
   private Home home;
@@ -23,7 +22,7 @@ public class HomeUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_shouldReturnRightResponse() {
     var request = new HttpRequest("lol", Map.of());
-    var expected = new HttpResponse("Checkers web service", HttpStatusCode.OK);
+    var expected = Response.createSuccess("Welcome to checkers server");
 
     var sut = home.handleRequest(request);
 
