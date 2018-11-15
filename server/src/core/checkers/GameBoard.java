@@ -29,13 +29,21 @@ public class GameBoard {
     }
 
     private TurnStatus makeMove(Checker checker, Vector delta) {
-        if (Math.abs(delta.getY()) != Math.abs(delta.getX()) && Math.abs(delta.getY()) != Math.abs(delta.getZ()))
+        if (invalidDelta(delta))
             return TurnStatus.FAIL;
         if (isCutDown(checker.getPosition(), delta))
             return cutDown(checker, delta);
         if (isStep(checker.getPosition(), delta))
             return makeStep(checker, delta);
         return TurnStatus.FAIL;
+    }
+
+    private boolean invalidDelta(Vector delta) {
+        var x =(Math.abs(delta.getX()));
+        var y = Math.abs(delta.getY());
+        var z = Math.abs(delta.getZ());
+
+        return !((x==y || Math.min(x,y)==0) && (x==z || Math.min(x,z)==0) && (z==y || Math.min(z,y)==0));
     }
 
     private TurnStatus cutDown(Checker checker, Vector delta) {
@@ -59,7 +67,7 @@ public class GameBoard {
     private boolean isValidCutDown(Checker checker, Vector delta) {
         var nextPosition = checker.getPosition().add(delta);
 
-        if(!nextPosition.inBoard())
+        if (!nextPosition.inBoard())
             return false;
 
         if (checker.getRank() == Rank.SOLDIER && ((Math.abs(delta.getY()) != 2)))
@@ -129,7 +137,7 @@ public class GameBoard {
         return checkers.stream().filter(ch -> ch.getPosition().equals(cords)).count() == 1;
     }
 
-    private void moveChecker(Checker ch, Vector delta){
+    private void moveChecker(Checker ch, Vector delta) {
         checkers.add(ch.move(delta));
         checkers.remove(ch);
     }
