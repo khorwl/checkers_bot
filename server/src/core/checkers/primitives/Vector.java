@@ -78,11 +78,21 @@ public class Vector {
         return String.format("(%d%c%d%c%d)", x, NumberDelimiter, y, NumberDelimiter, z);
     }
 
-    public Vector add(Vector vector) { return new Vector(x + vector.x, y + vector.y, z + vector.z); }
+    public Vector add(Vector vector) {
+        return new Vector(x + vector.x, y + vector.y, z + vector.z);
+    }
 
-    public Vector sub(Vector vector) { return new Vector(x - vector.x, y - vector.y, z - vector.z); }
+    public Vector sub(Vector vector) {
+        return new Vector(x - vector.x, y - vector.y, z - vector.z);
+    }
 
-    public Vector mul(int k) { return new Vector(x * k, y * k, z * k); }
+    public Vector mul(int k) {
+        return new Vector(x * k, y * k, z * k);
+    }
+
+    public Vector module() {
+        return new Vector(Math.abs(x), Math.abs(y), Math.abs(z));
+    }
 
 
     public boolean inBoard() {

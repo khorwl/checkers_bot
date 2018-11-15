@@ -23,14 +23,18 @@ public class GameBoard {
     }
 
     public TurnStatus makeMove(Vector from, Vector to) {
-        var checker = getCheckerAt(from);
         var delta = to.sub(from);
+
+        if (invalidDelta(delta))
+            return TurnStatus.FAIL;
+
+        var checker = getCheckerAt(from);
+
         return makeMove(checker, delta);
     }
 
     private TurnStatus makeMove(Checker checker, Vector delta) {
-        if (invalidDelta(delta))
-            return TurnStatus.FAIL;
+
         if (isCutDown(checker.getPosition(), delta))
             return cutDown(checker, delta);
         if (isStep(checker.getPosition(), delta))
@@ -39,16 +43,17 @@ public class GameBoard {
     }
 
     private boolean invalidDelta(Vector delta) {
-        var x =(Math.abs(delta.getX()));
-        var y = Math.abs(delta.getY());
-        var z = Math.abs(delta.getZ());
+        var moduleD = delta.module();
+        var x = moduleD.getX();
+        var y = moduleD.getY();
+        var z = moduleD.getZ();
 
-        return !((x==y || Math.min(x,y)==0) && (x==z || Math.min(x,z)==0) && (z==y || Math.min(z,y)==0));
+        return !((x == y || Math.min(x, y) == 0) && (x == z || Math.min(x, z) == 0) && (z == y || Math.min(z, y) == 0));
     }
 
     private TurnStatus cutDown(Checker checker, Vector delta) {
         if (isValidCutDown(checker, delta)) {
-            var enemyChecker = getCheckersOnWay(checker.getPosition(), delta);
+            var enemyChecker = getCheckersOnWay(checker.getPosition(), delta).get(0);
             checkers.remove(enemyChecker);
             moveChecker(checker, delta);
             return TurnStatus.SUCCESS;
@@ -70,7 +75,9 @@ public class GameBoard {
         if (!nextPosition.inBoard())
             return false;
 
-        if (checker.getRank() == Rank.SOLDIER && ((Math.abs(delta.getY()) != 2)))
+
+        var moduleD = delta.module();
+        if (checker.getRank() == Rank.SOLDIER && (Math.max(moduleD.getZ(), Math.max(moduleD.getY(), moduleD.getX())) != 2))
             return false;
 
         if (isFreeCell(nextPosition)) {
@@ -79,6 +86,8 @@ public class GameBoard {
         }
         return false;
     }
+
+
 
     private boolean isFreeWay(Vector from, Vector delta) {
         return countCheckersOnWay(from, delta) == 0;
@@ -116,7 +125,7 @@ public class GameBoard {
     private boolean isValidStep(Checker checker, Vector delta) {
         var nextPosition = checker.getPosition().add(delta);
 
-        if (checker.getRank() == Rank.SOLDIER && Math.abs(delta.getY()) != 1)
+        if (checker.getRank() == Rank.SOLDIER && (Math.max(delta.getX(), Math.max(delta.getY(), delta.getZ())) != 1))
             return false;
 
         if (!nextPosition.inBoard())

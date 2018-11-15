@@ -36,10 +36,20 @@ public class GameBoardUnitTests {
     }
 
     @Test
-    void makeMove_makeValidStepSoldier_shouldReturnRightTurnStatus() {
+    void makeMove_makeValidStepWhiteSoldier_shouldReturnRightTurnStatus() {
         var expected = TurnStatus.SUCCESS;
         var actual = board.makeMove(new Vector(5, 4, 0), new Vector(5, 5, 1));
         var ch = new Checker(new Vector(5, 5, 1), Color.WHITE, Rank.SOLDIER);
+
+        assertEquals(expected, actual);
+        assertTrue(board.getCheckers().contains(ch));
+    }
+
+    @Test
+    void makeMove_makeValidStepBlackSoldier_shouldReturnRightTurnStatus() {
+        var expected = TurnStatus.SUCCESS;
+        var actual = board.makeMove(new Vector(0, 0, 7), new Vector(1, 0, 6));
+        var ch = new Checker(new Vector(1, 0, 6), Color.BLACK, Rank.SOLDIER);
 
         assertEquals(expected, actual);
         assertTrue(board.getCheckers().contains(ch));
@@ -89,6 +99,40 @@ public class GameBoardUnitTests {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void makeMove_makeValidCutWhiteSoldier_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.SUCCESS;
+        board.makeMove(new Vector(0,0,7),  new Vector(1, 0, 6));
+        board.makeMove(new Vector(1,0,6),  new Vector(1, 1, 5));
+        board.makeMove(new Vector(1, 1, 5),  new Vector(1, 2, 4));
+        board.makeMove(new Vector(1,2,4),  new Vector(2,2, 3));
+        board.makeMove(new Vector(2,2,3),  new Vector(3,2,2));
+        board.makeMove(new Vector(3,2,2),  new Vector(3,3, 1));
 
+        var actual = board.makeMove(new Vector(2,3,0), new Vector(4,3,2));
+
+        assertEquals( 63, checkers.size());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void makeMove_makeValidCutBlackSoldier_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.SUCCESS;
+        board.makeMove(new Vector(4,3,0),  new Vector(4,4, 1));
+        board.makeMove(new Vector(4,4,1),  new Vector(4,3,2));
+        board.makeMove(new Vector(4,3,2),  new Vector(4,4, 3));
+        board.makeMove(new Vector(4,4, 3),  new Vector(4,3, 4));
+        board.makeMove(new Vector(4,3, 4),  new Vector(4,4, 5));
+        board.makeMove(new Vector(4,4, 5),  new Vector(4,3, 6));
+
+        var actual = board.makeMove(new Vector(4,4,7), new Vector(4,2,5));
+        var a = checkers.contains(new Checker((new Vector(4,3,6)), Color.WHITE, Rank.SOLDIER));
+        var b = checkers.contains(new Checker(new Vector(4,2,5), Color.BLACK, Rank.SOLDIER));
+
+        assertEquals( 63, checkers.size());
+        assertEquals(expected, actual);
+    }
+
+//    @Testvoid
 
 }
