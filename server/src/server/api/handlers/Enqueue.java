@@ -1,8 +1,8 @@
-package server.handlers;
+package server.api.handlers;
 
 import core.ICheckersServer;
-import server.Request;
-import server.Response;
+import server.api.http.HttpResponse;
+import server.api.http.HttpRequest;
 import tools.QueryParser;
 
 public class Enqueue extends CommandHandler {
@@ -12,7 +12,7 @@ public class Enqueue extends CommandHandler {
   }
 
   @Override
-  public Response handleRequest(Request request) {
+  public HttpResponse handleRequest(HttpRequest httpRequest) {
     return null;
   }
 }
