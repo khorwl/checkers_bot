@@ -3,6 +3,7 @@ package tests;
 import core.checkers.GameState;
 import core.checkers.primitives.Color;
 import core.checkers.primitives.GameProgress;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -10,10 +11,16 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameStateUnitTests {
+    private GameState state;
+    private int a = 20;
+
+    @BeforeEach
+    public void setUp() {
+        state = new GameState();
+    }
 
     @Test
     void getProgress_shouldReturnRightValue() {
-        var state = new GameState();
         var expected = GameProgress.IN_PROGRESS;
 
         assertEquals(state.getProgress(), expected);
@@ -22,7 +29,6 @@ public class GameStateUnitTests {
 
     @Test
     void getProgress_gettingNotStartValue_shouldReturnRightValue() {
-        var state = new GameState();
         var expected = GameProgress.FINISHED_BY_WINNING_BLACK;
         state.setProgress(GameProgress.FINISHED_BY_WINNING_BLACK);
 
@@ -32,7 +38,6 @@ public class GameStateUnitTests {
 
     @Test
     void setProgress_shouldRightChangeValue() {
-        var state = new GameState();
         var expected = GameProgress.FINISHED_BY_WINNING_BLACK;
 
         state.setProgress(GameProgress.FINISHED_BY_WINNING_BLACK);
@@ -42,7 +47,6 @@ public class GameStateUnitTests {
 
     @Test
     void setProgress_settingOtherValue_shouldRightChangeValue() {
-        var state = new GameState();
         var expected = GameProgress.FINISHED_BY_DRAW;
 
         state.setProgress(GameProgress.FINISHED_BY_DRAW);
@@ -52,7 +56,6 @@ public class GameStateUnitTests {
 
     @Test
     void getNextTurnOrder_gettingNotStartValue_shouldReturnRightValue() {
-        var state = new GameState();
         state.changeNextTurnOrder();
         var expected = Color.BLACK;
 
@@ -64,7 +67,6 @@ public class GameStateUnitTests {
 
     @Test
     void getNextTurnOrder_shouldReturnRightValue() {
-        var state = new GameState();
         var expected = Color.WHITE;
 
         var actual = state.getNextTurnOrder();
@@ -75,7 +77,6 @@ public class GameStateUnitTests {
 
     @Test
     void changeNextTurnOrder_shouldReturnRightValue() {
-        var state = new GameState();
         state.changeNextTurnOrder();
         var expected = Color.BLACK;
 
@@ -87,8 +88,6 @@ public class GameStateUnitTests {
 
     @Test
     void changeNextTurnOrder_changeOddTime_shouldReturnRightValue() {
-        var state = new GameState();
-        var a = 20;
         var n = ((int) (Math.random() * a)) * 2 - 1;
         for (var i = 0; i < n; i++)
             state.changeNextTurnOrder();
@@ -102,8 +101,6 @@ public class GameStateUnitTests {
 
     @Test
     void changeNextTurnOrder_changeEvenTime_shouldReturnRightValue() {
-        var state = new GameState();
-        var a = 20;
         var n = ((int) (Math.random() * a)) * 2;
         for (var i = 0; i < n; i++)
             state.changeNextTurnOrder();
@@ -118,7 +115,6 @@ public class GameStateUnitTests {
 
     @Test
     void getNextTurnOrder_gettingChangeOddTimeValue_shouldReturnRightValue() {
-        var state = new GameState();
         var a = 20;
         var n = ((int) (Math.random() * a)) * 2 - 1;
         for (var i = 0; i < n; i++)
@@ -129,5 +125,4 @@ public class GameStateUnitTests {
 
         assertEquals(actual, expected);
     }
-
 }
