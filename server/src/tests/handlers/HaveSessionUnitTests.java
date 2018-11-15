@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 import server.api.http.HttpResponse;
 import server.api.http.HttpStatusCode;
 import server.api.http.HttpRequest;
-import server.api.handlers.HaveSession;
+import server.api.handlers.have_session.HaveSession;
+import server.api.response.Response;
 
 public class HaveSessionUnitTests extends HandlerTestCase {
 
@@ -25,7 +26,7 @@ public class HaveSessionUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_withoutUserName_shouldReturnInvalidQuery() {
     var request = new HttpRequest("", Map.of("NAME", "MA<E"));
-    var expected = new HttpResponse("Invalid query", HttpStatusCode.BadRequest);
+    var expected = Response.createInvalidRequest("Invalid query", false);
 
     var sut = handler.handleRequest(request);
 
@@ -35,7 +36,7 @@ public class HaveSessionUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_noSuchUser_shouldReturnBadRequest() throws UserDataBaseException {
     var request = new HttpRequest("", Map.of("name", "username"));
-    var expected = new HttpResponse(String.format("No such user: \"%s\"", "username"), HttpStatusCode.BadRequest);
+    var expected = Response.createFail("No such user: \"username\"", false);
     when(userDataBase.getUser("username")).thenThrow(new UserDataBaseException());
 
     var sut = handler.handleRequest(request);
@@ -46,7 +47,7 @@ public class HaveSessionUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_noSessionForUser_shouldReturnFalse() throws UserDataBaseException {
     var request = new HttpRequest("", Map.of("name", "user"));
-    var expected = new HttpResponse("false", HttpStatusCode.OK);
+    var expected = Response.createSuccess(false);
 
     var sut = handler.handleRequest(request);
 
@@ -56,7 +57,7 @@ public class HaveSessionUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_withSessionForThatUser_shouldReturnTrue() {
     var request = new HttpRequest("", Map.of("name", "user"));
-    var expected = new HttpResponse("true", HttpStatusCode.OK);
+    var expected = Response.createSuccess(true);
     when(sessionServer.hasSessionWithUser(any())).thenReturn(true);
 
     var sut = handler.handleRequest(request);

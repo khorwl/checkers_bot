@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
+import server.api.http.HttpResponse;
 import server.api.response.Response;
 import server.api.response.ResponseCode;
 import server.api.http.HttpStatusCode;
+import server.api.response.ResponseSerializer;
 
 public class ResponseUnitTests {
 
@@ -58,5 +60,13 @@ public class ResponseUnitTests {
     assertEquals(HttpStatusCode.OK, r.toHttpResponse().getStatusCode());
   }
 
+  @Test
+  public void toHttpResponse_shouldReturnRightHttpResponse() {
+    var r = Response.createInvalidRequest(new HttpResponse("my body my rules", 500));
+    var expected = new HttpResponse(ResponseSerializer.serializeToJson(r), HttpStatusCode.OK);
 
+    var sut = r.toHttpResponse();
+
+    assertEquals(expected, sut);
+  }
 }

@@ -13,7 +13,8 @@ public class ResponseDeserializerUnitTests {
     var json =
         "{\n"
       + "  \"code\": \"INTERNAL_SERVER_ERROR\",\n"
-      + "  \"dataObject\": 5\n"
+      + "  \"dataObject\": 5,\n"
+      + "  \"message\": \"\""
       + "}";
     var expected = Response.createInternalError(5);
 
@@ -60,13 +61,13 @@ public class ResponseDeserializerUnitTests {
       + "    \"Field1\": 1488,\n"
       + "    \"Field2\": 1337,\n"
       + "    \"Field3\": 228\n"
-      + "  }\n"
+      + "  },\n"
+      + "  \"message\": \"message\"\n"
       + "}";
-    var expected = Response.createInvalidRequest(new MyClass());
+    var expected = Response.createInvalidRequest("message", new MyClass());
 
     var sut = ResponseDeserializer.deserializeFromJson(json, MyClass.class);
 
     assertEquals(expected, sut);
   }
-
 }
