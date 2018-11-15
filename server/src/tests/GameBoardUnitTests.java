@@ -100,7 +100,7 @@ public class GameBoardUnitTests {
     }
 
     @Test
-    void makeMove_makeValidCutWhiteSoldier_shouldReturnRightTurnStatus(){
+    void makeMove_whiteSoldierMakeValidCut_shouldReturnRightTurnStatus(){
         var expected = TurnStatus.SUCCESS;
         board.makeMove(new Vector(0,0,7),  new Vector(1, 0, 6));
         board.makeMove(new Vector(1,0,6),  new Vector(1, 1, 5));
@@ -116,7 +116,7 @@ public class GameBoardUnitTests {
     }
 
     @Test
-    void makeMove_makeValidCutBlackSoldier_shouldReturnRightTurnStatus(){
+    void makeMove_blackSoldierMakeValidCut_shouldReturnRightTurnStatus(){
         var expected = TurnStatus.SUCCESS;
         board.makeMove(new Vector(4,3,0),  new Vector(4,4, 1));
         board.makeMove(new Vector(4,4,1),  new Vector(4,3,2));
@@ -126,13 +126,83 @@ public class GameBoardUnitTests {
         board.makeMove(new Vector(4,4, 5),  new Vector(4,3, 6));
 
         var actual = board.makeMove(new Vector(4,4,7), new Vector(4,2,5));
-        var a = checkers.contains(new Checker((new Vector(4,3,6)), Color.WHITE, Rank.SOLDIER));
-        var b = checkers.contains(new Checker(new Vector(4,2,5), Color.BLACK, Rank.SOLDIER));
 
         assertEquals( 63, checkers.size());
         assertEquals(expected, actual);
     }
 
-//    @Testvoid
+    @Test
+    void makeMove_blackLadyMakeValidCut_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.SUCCESS;
+        board.makeMove(new Vector(3,2,0), new Vector(4,2,1));
+        var lady = new Checker(new Vector(5,2,2), Color.BLACK, Rank.LADY);
+        checkers.add(lady);
+
+        var actual = board.makeMove(new Vector(5,2,2), new Vector(3,2,0));
+
+        assertEquals( 64, checkers.size());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void makeMove_whiteLadyMakeValidCut_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.SUCCESS;
+        board.makeMove(new Vector(3,3,7), new Vector(4,3,6));
+        var lady = new Checker(new Vector(5,3,5), Color.WHITE, Rank.LADY);
+        checkers.add(lady);
+
+        var actual = board.makeMove(new Vector(5,3,5), new Vector(3,3,7));
+
+        assertEquals( 64, checkers.size());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void makeMove_whiteMakeCutSelfChecker_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.FAIL;
+        board.makeMove(new Vector(4,1,0),  new Vector(4, 2, 1));
+
+        var actual = board.makeMove(new Vector(4,3,0), new Vector(4,1,2));
+
+        assertEquals(expected, actual);
+        assertEquals(64, checkers.size());
+    }
+
+    @Test
+    void makeMove_BlackMakeCutSelfChecker_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.FAIL;
+        board.makeMove(new Vector(4,0,7),  new Vector(4, 1, 6));
+
+        var actual = board.makeMove(new Vector(4,2,7), new Vector(4,0,5));
+
+        assertEquals(expected, actual);
+        assertEquals(64, checkers.size());
+    }
+
+    @Test
+    void makeMove_SoldierMakeCutNotFreeCell_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.FAIL;
+        var ch = new Checker(new Vector(4,2,5), Color.WHITE, Rank.SOLDIER);
+        checkers.add(ch);
+        board.makeMove(new Vector(4,2,7), new Vector(4,3,6));
+
+        var actual = board.makeMove(new Vector(4,2,5), new Vector(4,4,7));
+
+        assertEquals(expected, actual);
+        assertEquals(65, checkers.size());
+    }
+
+    @Test
+    void makeMove_LadyMakeCutNotFreeCell_shouldReturnRightTurnStatus(){
+        var expected = TurnStatus.FAIL;
+        var ch = new Checker(new Vector(4,2,5), Color.WHITE, Rank.LADY);
+        checkers.add(ch);
+        board.makeMove(new Vector(4,2,7), new Vector(4,3,6));
+
+        var actual = board.makeMove(new Vector(4,2,5), new Vector(4,4,7));
+
+        assertEquals(expected, actual);
+        assertEquals(65, checkers.size());
+    }
 
 }
