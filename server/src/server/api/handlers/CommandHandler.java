@@ -5,8 +5,8 @@ import com.sun.net.httpserver.HttpHandler;
 import core.ICheckersServer;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import server.api.http.HttpResponse;
 import server.api.http.HttpRequest;
+import server.api.http.HttpResponse;
 import server.api.response.Response;
 import tools.QueryParser;
 
