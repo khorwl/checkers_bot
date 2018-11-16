@@ -25,7 +25,7 @@ public class HaveSession extends CommandHandler<Boolean> {
 
       return Response.createSuccess(server.sessionServer().hasSessionWithUser(user));
     } catch (UserDataBaseException e) {
-      return Response.createFail(String.format("No such user: \"%s\"", name), false);
+      return Response.createSuccess(String.format("No such user: \"%s\"", name), false);
     }
   }
 }
