@@ -5,6 +5,9 @@ import core.ICheckersServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import server.api.handlers.delete.Delete;
+import server.api.handlers.end_session.EndSession;
+import server.api.handlers.enqueue.Enqueue;
+import server.api.handlers.have_session.HaveSession;
 import server.api.handlers.home.Home;
 import server.api.handlers.register.Register;
 import tools.QueryParser;
@@ -29,6 +32,9 @@ public class Server {
     httpServer.createContext("/", new Home(queryParser, server));
     httpServer.createContext("/register", new Register(queryParser, server));
     httpServer.createContext("/delete", new Delete(queryParser, server));
+    httpServer.createContext("/enqueue", new Enqueue(queryParser, server));
+    httpServer.createContext("/have_session", new HaveSession(queryParser, server));
+    httpServer.createContext("/end_session", new EndSession(queryParser, server));
     httpServer.setExecutor(null);
 
     httpServer.start();
