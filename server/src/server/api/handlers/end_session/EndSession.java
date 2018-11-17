@@ -2,12 +2,12 @@ package server.api.handlers.end_session;
 
 import core.ICheckersServer;
 import core.sessions.SessionServerException;
-import server.api.handlers.CommandHandler;
+import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
 import server.api.response.Response;
 import tools.QueryParser;
 
-public class EndSession extends CommandHandler<Boolean> {
+public class EndSession extends Handler<Boolean> {
 
   public EndSession(QueryParser queryParser, ICheckersServer server) {
     super(queryParser, server);
@@ -42,5 +42,10 @@ public class EndSession extends CommandHandler<Boolean> {
       //probably impossible scenario, should be fixed
       return Response.createSuccess(String.format("Cant kill session %s", session.getId()), false);
     }
+  }
+
+  @Override
+  public String getName() {
+    return "end_session";
   }
 }

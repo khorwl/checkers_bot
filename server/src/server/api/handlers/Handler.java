@@ -10,12 +10,12 @@ import server.api.http.HttpResponse;
 import server.api.response.Response;
 import tools.QueryParser;
 
-public abstract class CommandHandler<T> implements HttpHandler {
+public abstract class Handler<T> implements HttpHandler {
 
   protected final QueryParser queryParser;
   protected final ICheckersServer server;
 
-  public CommandHandler(QueryParser queryParser, ICheckersServer server) {
+  public Handler(QueryParser queryParser, ICheckersServer server) {
     this.queryParser = queryParser;
     this.server = server;
   }
@@ -53,4 +53,5 @@ public abstract class CommandHandler<T> implements HttpHandler {
   }
 
   public abstract Response<T> handleRequest(HttpRequest httpRequest);
+  public abstract String getName();
 }

@@ -2,12 +2,12 @@ package server.api.handlers.enqueue;
 
 import core.ICheckersServer;
 import core.sessions.SessionServerException;
-import server.api.handlers.CommandHandler;
+import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
 import server.api.response.Response;
 import tools.QueryParser;
 
-public class Enqueue extends CommandHandler<Boolean> {
+public class Enqueue extends Handler<Boolean> {
 
   public Enqueue(QueryParser queryParser, ICheckersServer server) {
     super(queryParser, server);
@@ -20,6 +20,11 @@ public class Enqueue extends CommandHandler<Boolean> {
     startSessionIfPossible();
 
     return response;
+  }
+
+  @Override
+  public String getName() {
+    return "enqueue";
   }
 
   private Response<Boolean> getResponse(HttpRequest httpRequest) {
