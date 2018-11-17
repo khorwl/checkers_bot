@@ -50,8 +50,9 @@ public class GetSession extends Handler<ClientSessionInfo> {
     var id = session.getId();
     var whiteName = getNameOf(session.getGame().getWhitePlayer());
     var blackName = getNameOf(session.getGame().getBlackPlayer());
+    var state = session.getGame().getState();
 
-    return new ClientSessionInfo(checkers, id, whiteName, blackName);
+    return new ClientSessionInfo(checkers, id, whiteName, blackName, state);
   }
 
   private String getNameOf(IPlayer player) {
@@ -60,7 +61,7 @@ public class GetSession extends Handler<ClientSessionInfo> {
     }
 
     if (player instanceof AIPlayer) {
-      return "AI player";
+      return "AI";
     }
 
     return "Unknown player";
