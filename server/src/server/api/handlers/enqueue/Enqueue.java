@@ -38,7 +38,11 @@ public class Enqueue extends CommandHandler<Boolean> {
       return Response.createSuccess(String.format("User %s already have session", name), false);
     }
 
-    return Response.createSuccess(server.playerQueue().enqueue(user));
+    if (server.playerQueue().enqueue(user)) {
+      return Response.createSuccess(String.format("Successfully enqueued user %s", name), true);
+    }
+
+    return Response.createSuccess(String.format("Cant enqueue user %s", name), false);
   }
 
   private void startSessionIfPossible() {

@@ -3,7 +3,6 @@ package tests.handlers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.only;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +49,7 @@ public class EnqueueUnitTests extends HandlerTestCase {
   public void handleRequest_enquingAreFailed_shouldReturnRightResponse() {
     var user = new User("user");
     var request = new HttpRequest("", Map.of("name", "user"));
-    var expected = Response.createSuccess(false);
+    var expected =Response.createSuccess(String.format("Cant enqueue user %s", user), false);
     when(userDataBase.getUserOrNull(any())).thenReturn(user);
 
     var sut = handler.handleRequest(request);
@@ -62,7 +61,7 @@ public class EnqueueUnitTests extends HandlerTestCase {
   public void handleRequest_enquedSucessfully_shouldReturnRightResponse() {
     var user = new User("user");
     var request = new HttpRequest("", Map.of("name", "user"));
-    var expected = Response.createSuccess(true);
+    var expected = Response.createSuccess(String.format("Successfully enqueued user %s", user), true);
     when(userDataBase.getUserOrNull(any())).thenReturn(user);
     when(playerQueue.enqueue(any())).thenReturn(true);
 

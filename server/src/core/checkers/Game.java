@@ -1,9 +1,11 @@
 package core.checkers;
 
 import core.checkers.players.IPlayer;
+import core.checkers.primitives.Checker;
 import core.checkers.primitives.Color;
 import core.checkers.primitives.TurnStatus;
 import core.tools.CoreException;
+import java.util.Set;
 
 public class Game implements IGame {
     private final IPlayer whitePlayer;
@@ -22,6 +24,11 @@ public class Game implements IGame {
     @Override
     public GameState getState() {
         return state;
+    }
+
+    @Override
+    public Set<Checker> getCheckers() {
+        return board.getCheckers();
     }
 
     @Override

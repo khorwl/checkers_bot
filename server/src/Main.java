@@ -9,7 +9,7 @@ public class Main {
       var factory = new ServerFactory();
       var server = factory.create();
 
-      server.run(new InetSocketAddress("0.0.0.0",80));
+      server.run(new InetSocketAddress("0.0.0.0",8600));
     }
     catch (Exception e)
     {
