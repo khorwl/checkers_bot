@@ -7,13 +7,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class GameFactory implements IGameFactory {
-    private final GameState state = new GameState();
     private final Generator generator = new Generator();
-    private final HashSet<Checker> checkers = generator.getStartCheckers();
-    private final GameBoard board = new GameBoard(checkers);
 
     @Override
     public IGame createGame(IPlayer whitePlayer, IPlayer blackPlayer) {
-        return new Game(whitePlayer, blackPlayer, state, board);
+        HashSet<Checker> checkers = generator.getStartCheckers();
+        GameBoard board = new GameBoard(checkers);
+        return new Game(whitePlayer, blackPlayer, new GameState(), board);
     }
 }
