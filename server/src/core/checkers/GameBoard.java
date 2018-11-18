@@ -14,7 +14,7 @@ public class GameBoard {
         this.checkers = locationCheckers;
     }
 
-    public HashSet getCheckers() {
+    public Set<Checker> getCheckers() {
         return checkers;
     }
 

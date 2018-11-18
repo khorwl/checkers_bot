@@ -126,9 +126,9 @@ public class Vector {
     public static Vector parse(String string) throws VectorException {
         var p = tryParse(string);
 
-        if (p.first()) //if successfully parsed
+        if (p != null) //if successfully parsed
         {
-            return p.second();
+            return p;
         }
 
         throw new VectorException(
@@ -136,9 +136,7 @@ public class Vector {
                         string.length() < 50 ? string : string.substring(0, 45) + "..."));
     }
 
-    private static final Pair<Boolean, Vector> failedParsePair = Pair.create(false, zero);
-
-    public static Pair<Boolean, Vector> tryParse(String string) {
+    public static Vector tryParse(String string) {
         try {
             var numbers = readNumbers(string);
 
@@ -146,9 +144,9 @@ public class Vector {
             var y = Integer.decode(numbers[1]);
             var z = Integer.decode(numbers[2]);
 
-            return Pair.create(true, new Vector(x, y, z));
+            return new Vector(x, y, z);
         } catch (NullPointerException | NumberFormatException e) {
-            return failedParsePair;
+            return null;
         }
     }
 

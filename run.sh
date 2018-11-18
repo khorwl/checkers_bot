@@ -1,3 +1,7 @@
 #!/bin/bash
 
-sudo ./_run.sh
+cd server
+mvn package -q
+mvn exec:java -q
+cd ..
+

@@ -120,7 +120,8 @@ public class Response<T> {
 
   @Override
   public String toString() {
+    var dob = dataObject == null ? "null" : dataObject.toString();
     return String
-        .format("Response %s with code: %s and object: %s", message, code.toString(), dataObject.toString());
+        .format("Response %s with code: %s and object: %s", message, code.toString(), dob);
   }
 }

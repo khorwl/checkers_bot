@@ -1,6 +1,8 @@
 package server;
 
 import core.CheckersServer;
+import core.checkers.GameFactory;
+import core.checkers.IGameFactory;
 import core.queue.PlayerQueue;
 import core.sessions.SessionServer;
 import core.userdb.UserDataBase;
@@ -10,10 +12,11 @@ public class ServerFactory implements IServerFactory {
   @Override
   public Server create() {
     var userDataBase = new UserDataBase();
-    var sessionServer = new SessionServer(null);
+    var gameFactory = new GameFactory();
+    var sessionServer = new SessionServer(gameFactory);
     var playerQueue = new PlayerQueue();
-    var server = new CheckersServer(userDataBase, playerQueue, sessionServer);
+    var checkersServer = new CheckersServer(userDataBase, playerQueue, sessionServer);
 
-    return new Server(server);
+    return new Server(checkersServer);
   }
 }

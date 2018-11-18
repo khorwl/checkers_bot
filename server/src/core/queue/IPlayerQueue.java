@@ -4,7 +4,7 @@ import core.userdb.User;
 import tools.Pair;
 
 public interface IPlayerQueue {
-  boolean enqueue(User user) throws PlayerQueueException;
+  boolean enqueue(User user);
   boolean hasPair();
   boolean isEmpty();
   int size();

@@ -36,7 +36,7 @@ public class HaveSessionUnitTests extends HandlerTestCase {
   @Test
   public void handleRequest_noSuchUser_shouldReturnBadRequest() throws UserDataBaseException {
     var request = new HttpRequest("", Map.of("name", "username"));
-    var expected = Response.createFail("No such user: \"username\"", false);
+    var expected = Response.createSuccess("No such user: \"username\"", false);
     when(userDataBase.getUser("username")).thenThrow(new UserDataBaseException());
 
     var sut = handler.handleRequest(request);
