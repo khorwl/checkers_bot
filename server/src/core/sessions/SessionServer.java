@@ -4,7 +4,6 @@ import core.checkers.IGame;
 import core.checkers.IGameFactory;
 import core.checkers.players.EasyAIPlayer;
 import core.userdb.User;
-import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +78,7 @@ public class SessionServer implements ISessionServer {
 
   @Override
   public Session getSession(String sessionId) throws SessionServerException {
-    var session = getSessionOrNull(sessionId);
+    var session = getSessionElseNull(sessionId);
 
     if (session == null) {
       throwNotThatSessionException(sessionId);
@@ -89,12 +88,22 @@ public class SessionServer implements ISessionServer {
   }
 
   @Override
-  public Session getSessionOrNull(String sessionId) {
+  public Session getSessionElseNull(String sessionId) {
     return idToSession.get(sessionId);
   }
 
   @Override
-  public Session getSessionWithUserOrNull(User user) {
+  public Session getSessionWithUser(User user) throws SessionServerException {
+    var session = getSessionWithUserElseNull(user);
+
+    if (session == null)
+      throw new SessionServerException(String.format("No session with user: %s", user.getName()));
+
+    return session;
+  }
+
+  @Override
+  public Session getSessionWithUserElseNull(User user) {
     var id = userToCurrentSessionId.get(user);
 
     if (id == null)

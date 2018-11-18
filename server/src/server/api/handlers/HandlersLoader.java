@@ -1,6 +1,6 @@
 package server.api.handlers;
 
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;

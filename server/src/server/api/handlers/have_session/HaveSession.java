@@ -1,9 +1,10 @@
 package server.api.handlers.have_session;
 
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
 import core.userdb.UserDataBaseException;
 import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
+import server.api.http.NoThatParameterException;
 import server.api.response.Response;
 import tools.QueryParser;
 
@@ -14,19 +15,12 @@ public class HaveSession extends Handler<Boolean> {
   }
 
   @Override
-  public Response<Boolean> handleRequest(HttpRequest httpRequest) {
-    var name = httpRequest.getParameterOrNull("name");
+  public Response<Boolean> handleRequest(HttpRequest httpRequest)
+      throws NoThatParameterException, UserDataBaseException {
+    var name = httpRequest.getParameter("name");
+    var user = server.userDataBase().getUser(name);
 
-    if (name == null)
-      return Response.createInvalidRequest("Invalid query", false);
-
-    try {
-      var user = server.userDataBase().getUser(name);
-
-      return Response.createSuccess(server.sessionServer().hasSessionWithUser(user));
-    } catch (UserDataBaseException e) {
-      return Response.createSuccess(String.format("No such user: \"%s\"", name), false);
-    }
+    return Response.createSuccess(server.sessionServer().hasSessionWithUser(user));
   }
 
   @Override

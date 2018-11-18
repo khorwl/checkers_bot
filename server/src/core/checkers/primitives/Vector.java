@@ -3,7 +3,6 @@ package core.checkers.primitives;
 import java.util.Random;
 
 import core.checkers.Constants;
-import tools.Pair;
 
 public class Vector {
 
@@ -124,7 +123,7 @@ public class Vector {
     }
 
     public static Vector parse(String string) throws VectorException {
-        var p = tryParse(string);
+        var p = parseElseNull(string);
 
         if (p != null) //if successfully parsed
         {
@@ -136,7 +135,7 @@ public class Vector {
                         string.length() < 50 ? string : string.substring(0, 45) + "..."));
     }
 
-    public static Vector tryParse(String string) {
+    public static Vector parseElseNull(String string) {
         try {
             var numbers = readNumbers(string);
 

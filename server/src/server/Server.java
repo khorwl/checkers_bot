@@ -1,19 +1,10 @@
 package server;
 
 import com.sun.net.httpserver.HttpServer;
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.List;
-import server.api.handlers.Handler;
 import server.api.handlers.HandlersLoader;
-import server.api.handlers.delete.Delete;
-import server.api.handlers.end_session.EndSession;
-import server.api.handlers.enqueue.Enqueue;
-import server.api.handlers.get_session.GetSession;
-import server.api.handlers.have_session.HaveSession;
-import server.api.handlers.home.Home;
-import server.api.handlers.register.Register;
 import tools.QueryParser;
 
 public class Server {

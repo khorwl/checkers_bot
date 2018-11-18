@@ -1,6 +1,7 @@
 package tests.handlers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -9,10 +10,9 @@ import core.userdb.UserDataBaseException;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.api.http.HttpResponse;
-import server.api.http.HttpStatusCode;
 import server.api.http.HttpRequest;
 import server.api.handlers.delete.Delete;
+import server.api.http.NoThatParameterException;
 import server.api.response.Response;
 
 public class DeleteUnitTests extends HandlerTestCase {
@@ -25,30 +25,27 @@ public class DeleteUnitTests extends HandlerTestCase {
   }
 
   @Test
-  public void handleRequest_withInvalidQuery_shouldReturnInvalidQueryResponse() {
+  public void handleRequest_withInvalidQuery_shouldThrowNoThatKeyException()
+      throws NoThatParameterException, UserDataBaseException {
     var request = new HttpRequest(null, Map.of("Name", "user"));
-    var expected = Response.createInvalidRequest();
 
-    var sut = delete.handleRequest(request);
-
-    assertEquals(expected, sut);
+    assertThrows(NoThatParameterException.class, () -> delete.handleRequest(request));
   }
 
   @Test
-  public void handleRequest_withUnexistingUser_shouldReturnNoSuchUser() {
+  public void handleRequest_withUnexistingUser_shouldThrowUserDataBaseException()
+      throws NoThatParameterException, UserDataBaseException {
     var request = new HttpRequest(null, Map.of("name", "user"));
-    var expected =  Response.createSuccess("No such user", false);
+    when(userDataBase.getUser(any())).thenThrow(new UserDataBaseException());
 
-    var sut = delete.handleRequest(request);
-
-    assertEquals(expected, sut);
+    assertThrows(UserDataBaseException.class, () -> delete.handleRequest(request));
   }
 
   @Test
   public void handleRequest_withExistingUserButThisUserHaveSession_shouldReturnFail()
-      throws UserDataBaseException {
+      throws UserDataBaseException, NoThatParameterException {
     var user = new User("user");
-    when(userDataBase.getUserOrNull(any())).thenReturn(user);
+    when(userDataBase.getUserElseNull(any())).thenReturn(user);
     when(sessionServer.hasSessionWithUser(any())).thenReturn(true);
     var request = new HttpRequest(null, Map.of("name", "user"));
     var expected = Response.createSuccess("User have open session", false);
@@ -59,9 +56,10 @@ public class DeleteUnitTests extends HandlerTestCase {
   }
 
   @Test
-  public void handleRequest_withExistingUserAndNoSessions_shouldReturnSuccess() {
+  public void handleRequest_withExistingUserAndNoSessions_shouldReturnSuccess()
+      throws NoThatParameterException, UserDataBaseException {
     var user = new User("name");
-    when(userDataBase.getUserOrNull(any())).thenReturn(user);
+    when(userDataBase.getUserElseNull(any())).thenReturn(user);
     when(userDataBase.delete(any())).thenReturn(true);
     var request = new HttpRequest(null, Map.of("name", "name"));
     var expected = Response.createSuccess("Successfully delete user name", true);

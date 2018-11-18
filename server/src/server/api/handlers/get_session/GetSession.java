@@ -1,13 +1,16 @@
 package server.api.handlers.get_session;
 
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
 import core.checkers.players.AIPlayer;
 import core.checkers.players.IPlayer;
 import core.sessions.Session;
+import core.sessions.SessionServerException;
 import core.userdb.User;
+import core.userdb.UserDataBaseException;
 import java.util.ArrayList;
 import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
+import server.api.http.NoThatParameterException;
 import server.api.response.Response;
 import tools.QueryParser;
 
@@ -18,20 +21,11 @@ public class GetSession extends Handler<ClientSessionInfo> {
   }
 
   @Override
-  public Response<ClientSessionInfo> handleRequest(HttpRequest httpRequest) {
-    var name = httpRequest.getParameterOrNull("name");
-
-    if (name == null) {
-      return Response.createInvalidRequest("Invalid query", null);
-    }
-
-    var user = server.userDataBase().getUserOrNull(name);
-
-    if (user == null) {
-      return Response.createSuccess(String.format("No such user: %s", name), null);
-    }
-
-    var session = server.sessionServer().getSessionWithUserOrNull(user);
+  public Response<ClientSessionInfo> handleRequest(HttpRequest httpRequest)
+      throws SessionServerException, UserDataBaseException, NoThatParameterException {
+    var name = httpRequest.getParameter("name");
+    var user = server.userDataBase().getUser(name);
+    var session = server.sessionServer().getSessionWithUser(user);
 
     if (session == null) {
       return Response.createSuccess(String.format("No session with user: %s", name), null);

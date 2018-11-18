@@ -10,8 +10,9 @@ public interface ISessionServer {
   Session createAISessionForBlack(User user) throws SessionServerException;
   List<Session> getSessions();
   Session getSession(String sessionId) throws SessionServerException;
-  Session getSessionOrNull(String sessionId);
-  Session getSessionWithUserOrNull(User user);
+  Session getSessionElseNull(String sessionId);
+  Session getSessionWithUser(User user) throws SessionServerException;
+  Session getSessionWithUserElseNull(User user);
   boolean hasSessionWithUser(User user);
   void endSession(Session session) throws SessionServerException;
   void endSession(String sessionId) throws SessionServerException;

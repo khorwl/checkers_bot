@@ -9,7 +9,6 @@ import core.sessions.Session;
 import core.sessions.SessionServer;
 import core.sessions.SessionServerException;
 import core.userdb.User;
-import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import org.junit.jupiter.api.BeforeEach;
@@ -145,7 +144,7 @@ public class SessionServerUnitTests {
 
   @Test
   public void getSessionWithUserOrNull_ifNoSessionWithThatUser_shouldReturnNull() {
-    assertNull(server.getSessionWithUserOrNull(white));
+    assertNull(server.getSessionWithUserElseNull(white));
   }
 
   @Test
@@ -153,6 +152,6 @@ public class SessionServerUnitTests {
       throws SessionServerException {
     var s = server.createSession(white, black);
 
-    assertEquals(s, server.getSessionWithUserOrNull(black));
+    assertEquals(s, server.getSessionWithUserElseNull(black));
   }
 }

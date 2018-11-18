@@ -49,7 +49,7 @@ public class PlayerQueue implements IPlayerQueue {
 
   @Override
   public Pair<User, User> dequeuePair() throws PlayerQueueException {
-    var pair = dequeuePairOrNull();
+    var pair = dequeuePairElseNull();
 
     if (pair == null) {
       throw new PlayerQueueException("No pair to dequeue");
@@ -59,7 +59,7 @@ public class PlayerQueue implements IPlayerQueue {
   }
 
   @Override
-  public Pair<User, User> dequeuePairOrNull() {
+  public Pair<User, User> dequeuePairElseNull() {
     if (!hasPair()) {
       return null;
     }

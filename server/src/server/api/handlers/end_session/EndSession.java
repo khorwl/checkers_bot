@@ -1,9 +1,11 @@
 package server.api.handlers.end_session;
 
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
 import core.sessions.SessionServerException;
+import core.userdb.UserDataBaseException;
 import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
+import server.api.http.NoThatParameterException;
 import server.api.response.Response;
 import tools.QueryParser;
 
@@ -14,34 +16,15 @@ public class EndSession extends Handler<Boolean> {
   }
 
   @Override
-  public Response<Boolean> handleRequest(HttpRequest httpRequest) {
-    var name = httpRequest.getParameterOrNull("name");
+  public Response<Boolean> handleRequest(HttpRequest httpRequest)
+      throws SessionServerException, UserDataBaseException, NoThatParameterException {
+    var name = httpRequest.getParameter("name");
+    var user = server.userDataBase().getUser(name);
+    var session = server.sessionServer().getSessionWithUser(user);
 
-    if (name == null) {
-      return Response.createInvalidRequest("Invalid query", false);
-    }
+    server.sessionServer().endSession(session);
 
-    var user = server.userDataBase().getUserOrNull(name);
-
-    if (user == null) {
-      return Response.createSuccess(String.format("No that user: %s", name), false);
-    }
-
-    var session = server.sessionServer().getSessionWithUserOrNull(user);
-
-    if (session == null) {
-      return Response.createSuccess("No any session with user", false);
-    }
-
-    //todo: make more beautiful
-    try {
-      server.sessionServer().endSession(session);
-
-      return Response.createSuccess(String.format("Successfully ended session %s", session.getId()), true);
-    } catch (SessionServerException e) {
-      //probably impossible scenario, should be fixed
-      return Response.createSuccess(String.format("Cant kill session %s", session.getId()), false);
-    }
+    return Response.createSuccess(String.format("Successfully ended session %s", session.getId()), true);
   }
 
   @Override

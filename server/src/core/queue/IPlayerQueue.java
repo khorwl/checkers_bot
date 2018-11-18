@@ -9,5 +9,5 @@ public interface IPlayerQueue {
   boolean isEmpty();
   int size();
   Pair<User, User> dequeuePair() throws PlayerQueueException;
-  Pair<User, User> dequeuePairOrNull();
+  Pair<User, User> dequeuePairElseNull();
 }

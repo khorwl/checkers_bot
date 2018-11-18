@@ -1,6 +1,6 @@
 package server.api.handlers.home;
 
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
 import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
 import server.api.response.Response;

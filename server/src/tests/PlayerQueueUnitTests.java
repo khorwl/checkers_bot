@@ -41,7 +41,7 @@ public class PlayerQueueUnitTests {
     var q = queue();
     q.enqueue(new User("lol"));
     q.enqueue(new User("lol1"));
-    q.dequeuePairOrNull();
+    q.dequeuePairElseNull();
 
     assertTrue(q.isEmpty());
   }
@@ -66,7 +66,7 @@ public class PlayerQueueUnitTests {
     var q = queue();
     q.enqueue(new User("lol"));
     q.enqueue(new User("lol1"));
-    q.dequeuePairOrNull();
+    q.dequeuePairElseNull();
 
     assertEquals(0, q.size());
   }

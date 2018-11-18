@@ -1,8 +1,9 @@
 package server.api.handlers.register;
 
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
 import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
+import server.api.http.NoThatParameterException;
 import server.api.response.Response;
 import tools.QueryParser;
 
@@ -13,11 +14,8 @@ public class Register extends Handler<Boolean> {
   }
 
   @Override
-  public Response<Boolean> handleRequest(HttpRequest httpRequest) {
-    var name = httpRequest.getParameterOrNull("name");
-
-    if (name == null)
-      return Response.createInvalidRequest("Invalid query", false);
+  public Response<Boolean> handleRequest(HttpRequest httpRequest) throws NoThatParameterException {
+    var name = httpRequest.getParameter("name");
 
     if (server.userDataBase().register(name))
       return Response.createSuccess(String.format("Successfully register user %s", name), true);

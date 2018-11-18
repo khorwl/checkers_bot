@@ -34,7 +34,7 @@ public class UserDataBase implements IUserDataBase {
 
   @Override
   public User getUser(String name) throws UserDataBaseException {
-    var user = getUserOrNull(name);
+    var user = getUserElseNull(name);
 
     if (user == null)
       throw new UserDataBaseException(String.format("No such user: %s", name));
@@ -43,7 +43,7 @@ public class UserDataBase implements IUserDataBase {
   }
 
   @Override
-  public User getUserOrNull(String name) {
+  public User getUserElseNull(String name) {
     return nameToUser.get(name);
   }
 

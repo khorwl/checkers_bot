@@ -1,6 +1,5 @@
 package server.api.http;
 
-import java.security.KeyException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -18,15 +17,15 @@ public class HttpRequest {
     return queryToValue.containsKey(key);
   }
 
-  public String getParameter(String key) throws KeyException {
+  public String getParameter(String key) throws NoThatParameterException {
     if (!hasParameter(key)) {
-      throw new KeyException("No that key");
+      throw new NoThatParameterException("No that key: " + key);
     }
 
     return queryToValue.get(key);
   }
 
-  public String getParameterOrNull(String key) {
+  public String getParameterElseNull(String key) {
     return queryToValue.get(key);
   }
 

@@ -2,12 +2,19 @@ package server.api.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import core.ICheckersServer;
+import core.checkers.ICheckersServer;
+import core.queue.PlayerQueueException;
+import core.sessions.SessionServerException;
+import core.tools.CoreException;
+import core.userdb.UserDataBaseException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import server.api.http.HttpRequest;
 import server.api.http.HttpResponse;
+import server.api.http.NoThatParameterException;
 import server.api.response.Response;
+import tools.ExceptionHelper;
 import tools.QueryParser;
 
 public abstract class Handler<T> implements HttpHandler {
@@ -38,12 +45,33 @@ public abstract class Handler<T> implements HttpHandler {
 
   public final void handle(HttpExchange exchange) throws IOException {
     var request = buildRequest(exchange);
-    var response = handleRequest(request);
+    var response = getResponse(request);
     var asHttp = response.toHttpResponse();
 
     sendResponseAndClose(exchange, asHttp);
   }
 
+  private final Response<T> getResponse(HttpRequest request) {
+    try {
+      return handleRequest(request);
+    } catch (NoThatParameterException e) {
+      var msg = String.format("Invalid query: %s", e.getMessage());
+
+      return Response.createInvalidRequest(msg,null);
+    } catch (UserDataBaseException | SessionServerException | PlayerQueueException e) {
+      return Response.createFail(e.getMessage(), null);
+    } catch (CoreException e) {
+      var msg = String.format("CoreException %s:\n%s",
+          e.getMessage(), ExceptionHelper.getStackTraceAsString(e));
+
+      return Response.createInternalError(msg, null);
+    } catch (Exception e) {
+      var msg = String.format("Exception was thrown %s:\n%s",
+          e.getMessage(), ExceptionHelper.getStackTraceAsString(e));
+
+      return Response.createInternalError(msg, null);
+    }
+  }
 
   private HttpRequest buildRequest(HttpExchange exchange) throws IOException {
     var body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
@@ -52,6 +80,7 @@ public abstract class Handler<T> implements HttpHandler {
     return new HttpRequest(body, queryParams);
   }
 
-  public abstract Response<T> handleRequest(HttpRequest httpRequest);
+  public abstract Response<T> handleRequest(HttpRequest httpRequest) throws CoreException, NoThatParameterException;
+
   public abstract String getName();
 }
