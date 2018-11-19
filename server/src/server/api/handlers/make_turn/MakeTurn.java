@@ -33,6 +33,8 @@ public class MakeTurn extends Handler<TurnStatus> {
     var user = server.userDataBase().getUser(name);
     var session = server.sessionServer().getSessionWithUser(user);
 
+
+
     return null;
   }
 
