@@ -48,7 +48,7 @@ public class Game implements IGame {
         try {
             var turn = player.getNextTurn();
             if (board.makeMove(turn.from(), turn.to()) == TurnStatus.SUCCESS) {
-                state.changeNextTurnOrder();
+                state.changeTurnOrderToNext();
                 return TurnStatus.SUCCESS;
             }
             return TurnStatus.FAIL;
@@ -78,5 +78,4 @@ public class Game implements IGame {
     private boolean loserIsPlayer(Color color){
         return board.getCheckers().stream().filter(ch -> ch.getColor() == color).collect(Collectors.toList()).size() == 0;
     }
-}
 }

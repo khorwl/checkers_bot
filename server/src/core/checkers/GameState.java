@@ -1,11 +1,7 @@
 package core.checkers;
 
-import core.checkers.primitives.Checker;
 import core.checkers.primitives.Color;
 import core.checkers.primitives.GameProgress;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameState {
   private GameProgress progress;
@@ -28,7 +24,7 @@ public class GameState {
     return nextTurnOrder;
   }
 
-  public void changeNextTurnOrder(){
+  public void changeTurnOrderToNext(){
     nextTurnOrder = nextTurnOrder == Color.BLACK ? Color.WHITE : Color.BLACK;
   }
 }

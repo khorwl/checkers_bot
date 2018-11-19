@@ -15,9 +15,6 @@ public class GameUnitTests {
         var whitePlayer= mock(IPlayer.class);
         var blackPlayer= mock(IPlayer.class);
         var game = new Game(whitePlayer,  blackPlayer, null, null);
-
-        when(whitePlayer.haveNextTurn()).thenReturn(true);
-        verify(whitePlayer, times(1)).haveNextTurn();
     }
 
 
