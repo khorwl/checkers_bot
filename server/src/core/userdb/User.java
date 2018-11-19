@@ -1,31 +1,21 @@
 package core.userdb;
 
-import core.checkers.IGame;
 import core.checkers.players.IPlayer;
 import core.checkers.primitives.Turn;
 import core.tools.CoreException;
 
 public class User implements IPlayer {
+
   private final String name;
-  private int score;
   private Turn nextTurn;
 
   public User(String name) {
     this.name = name;
-    score = 0;
     nextTurn = null;
   }
 
   public String getName() {
     return name;
-  }
-
-  public int getScore() {
-    return score;
-  }
-
-  public void addScore(int score) {
-    this.score += score;
   }
 
   @Override
@@ -39,7 +29,7 @@ public class User implements IPlayer {
     }
 
     if (obj instanceof User) {
-      var other = (User)obj;
+      var other = (User) obj;
 
       return name.equals(other.name);
     }
@@ -55,10 +45,6 @@ public class User implements IPlayer {
   @Override
   public String toString() {
     return name;
-  }
-
-  @Override
-  public void setGame(IGame game) {
   }
 
   public void setNextTurn(Turn turn) {

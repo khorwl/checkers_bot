@@ -1,7 +1,6 @@
 package core.sessions;
 
-import core.checkers.IGame;
-import core.userdb.User;
+import core.checkers.game.IGame;
 
 public class Session {
   private final String id;

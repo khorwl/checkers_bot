@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import core.checkers.IGame;
+import core.checkers.game.IGame;
 import core.checkers.players.IPlayer;
 import core.checkers.primitives.Turn;
 import core.checkers.primitives.TurnStatus;

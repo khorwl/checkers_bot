@@ -1,6 +1,6 @@
 package server.api.handlers.get_session;
 
-import core.checkers.GameState;
+import core.checkers.game.GameState;
 import core.checkers.primitives.Checker;
 import java.util.List;
 

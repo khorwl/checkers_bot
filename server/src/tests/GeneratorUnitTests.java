@@ -1,6 +1,6 @@
 package tests;
 
-import core.checkers.Generator;
+import core.checkers.game.Generator;
 import core.checkers.primitives.Checker;
 import core.checkers.primitives.Color;
 import core.checkers.primitives.Rank;

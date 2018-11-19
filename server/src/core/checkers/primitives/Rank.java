@@ -1,3 +1,3 @@
 package core.checkers.primitives;
 
-public enum Rank { SOLDIER, LADY }
+public enum Rank {SOLDIER, LADY}

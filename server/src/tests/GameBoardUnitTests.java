@@ -1,7 +1,7 @@
 package tests;
 
-import core.checkers.GameBoard;
-import core.checkers.Generator;
+import core.checkers.game.GameBoard;
+import core.checkers.game.Generator;
 import core.checkers.primitives.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

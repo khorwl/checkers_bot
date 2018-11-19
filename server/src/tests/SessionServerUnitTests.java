@@ -3,7 +3,7 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import core.checkers.IGame;
+import core.checkers.game.IGame;
 import core.checkers.IGameFactory;
 import core.sessions.Session;
 import core.sessions.SessionServer;

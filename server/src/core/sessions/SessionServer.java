@@ -1,6 +1,6 @@
 package core.sessions;
 
-import core.checkers.IGame;
+import core.checkers.game.IGame;
 import core.checkers.IGameFactory;
 import core.checkers.players.EasyAIPlayer;
 import core.userdb.User;

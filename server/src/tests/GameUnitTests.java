@@ -1,8 +1,7 @@
 package tests;
 
-import core.checkers.Game;
+import core.checkers.game.Game;
 import core.checkers.players.IPlayer;
-import core.checkers.primitives.Vector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,9 +1,10 @@
-package core.checkers;
+package core.checkers.game;
 
 import core.checkers.primitives.Color;
 import core.checkers.primitives.GameProgress;
 
 public class GameState {
+
   private GameProgress progress;
   private Color nextTurnOrder;
 
@@ -16,7 +17,7 @@ public class GameState {
     return progress;
   }
 
-  public void setProgress(GameProgress progress){
+  public void setProgress(GameProgress progress) {
     this.progress = progress;
   }
 
@@ -24,7 +25,7 @@ public class GameState {
     return nextTurnOrder;
   }
 
-  public void changeTurnOrderToNext(){
+  public void changeTurnOrderToNext() {
     nextTurnOrder = nextTurnOrder == Color.BLACK ? Color.WHITE : Color.BLACK;
   }
 }

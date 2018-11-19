@@ -1,6 +1,6 @@
 package tests;
 
-import core.checkers.GameState;
+import core.checkers.game.GameState;
 import core.checkers.primitives.Color;
 import core.checkers.primitives.GameProgress;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,7 @@
 package core.checkers.primitives;
 
 public class Turn {
+
   private final Vector from;
   private final Vector to;
 
@@ -19,14 +20,16 @@ public class Turn {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj == null)
+    if (obj == null) {
       return false;
+    }
 
-    if (this == obj)
+    if (this == obj) {
       return true;
+    }
 
     if (obj instanceof Turn) {
-      var other = (Turn)obj;
+      var other = (Turn) obj;
 
       return from.equals(other.from) && to.equals(other.to);
     }
