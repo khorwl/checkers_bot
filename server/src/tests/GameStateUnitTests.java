@@ -85,19 +85,6 @@ public class GameStateUnitTests {
 
 
     @Test
-    void changeNextTurnOrder_changeOddTime_shouldReturnRightValue() {
-        var n = ((int) (Math.random() * a)) * 2 - 1;
-        for (var i = 0; i < n; i++)
-            state.changeTurnOrderToNext();
-
-        var expected = Color.BLACK;
-
-        var actual = state.getNextTurnOrder();
-
-        assertEquals(actual, expected);
-    }
-
-    @Test
     void changeNextTurnOrder_changeEvenTime_shouldReturnRightValue() {
         var n = ((int) (Math.random() * a)) * 2;
         for (var i = 0; i < n; i++)
@@ -113,8 +100,7 @@ public class GameStateUnitTests {
 
     @Test
     void getNextTurnOrder_gettingChangeOddTimeValue_shouldReturnRightValue() {
-        var a = 20;
-        var n = ((int) (Math.random() * a)) * 2 - 1;
+        var n = ((int) (Math.random() * a)) * 2 + 1;
         for (var i = 0; i < n; i++)
             state.changeTurnOrderToNext();
         var expected = Color.BLACK;

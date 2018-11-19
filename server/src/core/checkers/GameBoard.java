@@ -19,7 +19,7 @@ public class GameBoard {
     }
 
     public Checker getCheckerAt(Vector cords) {
-        return checkers.stream().filter(ch -> ch.getPosition().equals(cords)).findFirst().orElseThrow();
+        return checkers.stream().filter(ch -> ch.getPosition().equals(cords)).findFirst().orElse(null);
     }
 
     public TurnStatus makeMove(Vector from, Vector to) {
@@ -29,6 +29,9 @@ public class GameBoard {
             return TurnStatus.FAIL;
 
         var checker = getCheckerAt(from);
+
+        if (checker == null)
+            return TurnStatus.FAIL;
 
         return makeMove(checker, delta);
     }
@@ -98,7 +101,7 @@ public class GameBoard {
     }
 
     private List<Checker> getCheckersOnWay(Vector from, Vector delta) {
-        return getRay(from, delta).stream().filter(v -> haveCheckerIn(v)).map(v -> getCheckerAt(v)).collect(Collectors.toList());
+        return getRay(from, delta).stream().filter(this::haveCheckerIn).map(this::getCheckerAt).collect(Collectors.toList());
     }
 
     private List<Vector> getRay(Vector from, Vector delta) {
@@ -135,7 +138,7 @@ public class GameBoard {
     }
 
     private boolean isFreeCell(Vector cords) {
-        return checkers.stream().filter(ch -> ch.getPosition().equals(cords)).count() == 0;
+        return checkers.stream().noneMatch(ch -> ch.getPosition().equals(cords));
     }
 
     private boolean isEnemyChecker(Checker source, Checker destination) {

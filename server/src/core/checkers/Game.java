@@ -81,7 +81,13 @@ public class Game implements IGame {
     }
 
     private boolean isValidChecker(Color color, Vector from) {
-        return board.getCheckerAt(from).getColor() == color;
+        var checkerAt = board.getCheckerAt(from);
+
+        if (checkerAt == null) {
+            return false;
+        }
+
+        return checkerAt.getColor() == color;
     }
 }
 
