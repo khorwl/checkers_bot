@@ -18,7 +18,7 @@ public class GameBoard {
         return checkers;
     }
 
-    private Checker getCheckerAt(Vector cords) {
+    public Checker getCheckerAt(Vector cords) {
         return checkers.stream().filter(ch -> ch.getPosition().equals(cords)).findFirst().orElseThrow();
     }
 
