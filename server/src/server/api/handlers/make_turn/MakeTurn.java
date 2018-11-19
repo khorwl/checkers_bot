@@ -42,6 +42,6 @@ public class MakeTurn extends Handler<TurnStatus> {
 
   @Override
   public String getName() {
-    return null;
+    return "make_turn";
   }
 }
