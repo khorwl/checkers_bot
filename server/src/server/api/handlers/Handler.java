@@ -2,14 +2,13 @@ package server.api.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import core.queue.PlayerQueueException;
 import core.sessions.SessionServerException;
 import core.tools.CoreException;
 import core.userdb.UserDataBaseException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import server.api.http.HttpRequest;
 import server.api.http.HttpResponse;
 import server.api.http.NoThatParameterException;

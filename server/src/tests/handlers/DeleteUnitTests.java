@@ -25,8 +25,7 @@ public class DeleteUnitTests extends HandlerTestCase {
   }
 
   @Test
-  public void handleRequest_withInvalidQuery_shouldThrowNoThatKeyException()
-      throws NoThatParameterException, UserDataBaseException {
+  public void handleRequest_withInvalidQuery_shouldThrowNoThatKeyException() {
     var request = new HttpRequest(null, Map.of("Name", "user"));
 
     assertThrows(NoThatParameterException.class, () -> delete.handleRequest(request));
@@ -34,7 +33,7 @@ public class DeleteUnitTests extends HandlerTestCase {
 
   @Test
   public void handleRequest_withUnexistingUser_shouldThrowUserDataBaseException()
-      throws NoThatParameterException, UserDataBaseException {
+      throws UserDataBaseException {
     var request = new HttpRequest(null, Map.of("name", "user"));
     when(userDataBase.getUser(any())).thenThrow(new UserDataBaseException());
 

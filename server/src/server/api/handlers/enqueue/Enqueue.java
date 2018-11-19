@@ -1,6 +1,6 @@
 package server.api.handlers.enqueue;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import core.sessions.SessionServerException;
 import core.userdb.UserDataBaseException;
 import server.api.handlers.Handler;

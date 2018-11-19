@@ -1,6 +1,6 @@
 package server.api.handlers.register;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import server.api.handlers.Handler;
 import server.api.http.HttpRequest;
 import server.api.http.NoThatParameterException;

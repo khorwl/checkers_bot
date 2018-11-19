@@ -14,7 +14,7 @@ public class Main {
     }
     catch (Exception e)
     {
-      System.out.println("During server working error was thrown");
+      System.out.println("During server work, exception was thrown");
       System.out.println(e.getMessage());
       e.printStackTrace();
     }

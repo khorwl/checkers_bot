@@ -61,6 +61,10 @@ public class User implements IPlayer {
   public void setGame(IGame game) {
   }
 
+  public void setNextTurn(Turn turn) {
+    nextTurn = turn;
+  }
+
   @Override
   public boolean haveNextTurn() {
     return nextTurn != null;

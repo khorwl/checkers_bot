@@ -1,5 +1,5 @@
 package core.checkers;
 
 public class Constants {
-    public static final int size = 8;
+    public static final int BoardSize = 8;
 }

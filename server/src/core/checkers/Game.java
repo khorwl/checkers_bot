@@ -49,7 +49,7 @@ public class Game implements IGame {
             if (!isValidChecker(color, turn.from()))
                 return TurnStatus.FAIL;
             if (board.makeMove(turn.from(), turn.to()) == TurnStatus.SUCCESS) {
-                state.changeNextTurnOrder();
+                state.changeTurnOrderToNext();
                 return TurnStatus.SUCCESS;
             }
             return TurnStatus.FAIL;

@@ -5,7 +5,6 @@ import core.checkers.primitives.Color;
 import core.checkers.primitives.Rank;
 import core.checkers.primitives.Vector;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Generator {
@@ -22,8 +21,8 @@ public class Generator {
 
         var z = color == Color.WHITE ? 0 : 7;
 
-        for (var i = 0; i < Constants.size; i++) {
-            for (var j = 0; j < Constants.size; j++) {
+        for (var i = 0; i < Constants.BoardSize; i++) {
+            for (var j = 0; j < Constants.BoardSize; j++) {
                 if (i % 2 == 0) {
                     if (j % 2 == 0) {
                         if (color == Color.WHITE)

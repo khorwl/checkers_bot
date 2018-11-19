@@ -1,6 +1,7 @@
 package server.api.handlers.make_turn;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
+import core.checkers.primitives.Turn;
 import core.checkers.primitives.TurnStatus;
 import core.checkers.primitives.Vector;
 import core.sessions.SessionServerException;
@@ -32,12 +33,15 @@ public class MakeTurn extends Handler<TurnStatus> {
 
     var user = server.userDataBase().getUser(name);
     var session = server.sessionServer().getSessionWithUser(user);
+    var turn = new Turn(vectorFrom, vectorTo);
 
-    return null;
+    user.setNextTurn(turn);
+
+    return Response.createSuccess(session.getGame().performNextTurn());
   }
 
   @Override
   public String getName() {
-    return null;
+    return "make_turn";
   }
 }

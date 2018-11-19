@@ -6,8 +6,6 @@ import core.checkers.primitives.GameProgress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameStateUnitTests {
@@ -56,7 +54,7 @@ public class GameStateUnitTests {
 
     @Test
     void getNextTurnOrder_gettingNotStartValue_shouldReturnRightValue() {
-        state.changeNextTurnOrder();
+        state.changeTurnOrderToNext();
         var expected = Color.BLACK;
 
         var actual = state.getNextTurnOrder();
@@ -77,7 +75,7 @@ public class GameStateUnitTests {
 
     @Test
     void changeNextTurnOrder_shouldReturnRightValue() {
-        state.changeNextTurnOrder();
+        state.changeTurnOrderToNext();
         var expected = Color.BLACK;
 
         var actual = state.getNextTurnOrder();
@@ -90,7 +88,7 @@ public class GameStateUnitTests {
     void changeNextTurnOrder_changeOddTime_shouldReturnRightValue() {
         var n = ((int) (Math.random() * a)) * 2 - 1;
         for (var i = 0; i < n; i++)
-            state.changeNextTurnOrder();
+            state.changeTurnOrderToNext();
 
         var expected = Color.BLACK;
 
@@ -103,7 +101,7 @@ public class GameStateUnitTests {
     void changeNextTurnOrder_changeEvenTime_shouldReturnRightValue() {
         var n = ((int) (Math.random() * a)) * 2;
         for (var i = 0; i < n; i++)
-            state.changeNextTurnOrder();
+            state.changeTurnOrderToNext();
 
         var expected = Color.WHITE;
 
@@ -118,7 +116,7 @@ public class GameStateUnitTests {
         var a = 20;
         var n = ((int) (Math.random() * a)) * 2 - 1;
         for (var i = 0; i < n; i++)
-            state.changeNextTurnOrder();
+            state.changeTurnOrderToNext();
         var expected = Color.BLACK;
 
         var actual = state.getNextTurnOrder();
