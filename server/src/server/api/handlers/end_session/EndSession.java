@@ -1,6 +1,6 @@
 package server.api.handlers.end_session;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import core.sessions.SessionServerException;
 import core.userdb.UserDataBaseException;
 import server.api.handlers.Handler;

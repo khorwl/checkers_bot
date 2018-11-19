@@ -1,6 +1,6 @@
 package server.api.handlers.make_turn;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import core.checkers.primitives.TurnStatus;
 import core.checkers.primitives.Vector;
 import core.sessions.SessionServerException;

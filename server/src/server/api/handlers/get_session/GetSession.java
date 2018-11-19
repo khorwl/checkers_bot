@@ -1,6 +1,6 @@
 package server.api.handlers.get_session;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import core.checkers.players.AIPlayer;
 import core.checkers.players.IPlayer;
 import core.sessions.Session;

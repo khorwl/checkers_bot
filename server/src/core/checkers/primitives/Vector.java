@@ -95,7 +95,8 @@ public class Vector {
 
 
     public boolean inBoard() {
-        return x >= 0 && y >= 0 && z >= 0 && x < Constants.size && y < Constants.size && z < Constants.size;
+        return x >= 0 && y >= 0 && z >= 0 && x < Constants.BoardSize && y < Constants.BoardSize
+            && z < Constants.BoardSize;
     }
 
     public int getManhattanLength() {

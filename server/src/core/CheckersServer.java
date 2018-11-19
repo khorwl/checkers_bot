@@ -1,4 +1,4 @@
-package core.checkers;
+package core;
 
 import core.queue.IPlayerQueue;
 import core.sessions.ISessionServer;

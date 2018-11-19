@@ -1,6 +1,6 @@
 package server.api.handlers.have_session;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import core.userdb.UserDataBaseException;
 import server.api.handlers.Handler;
 import server.api.http.HttpRequest;

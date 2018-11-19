@@ -3,7 +3,7 @@ package tests.handlers;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import core.checkers.ICheckersServer;
+import core.ICheckersServer;
 import core.queue.IPlayerQueue;
 import core.sessions.ISessionServer;
 import core.userdb.IUserDataBase;

@@ -1,6 +1,6 @@
 package server;
 
-import core.checkers.CheckersServer;
+import core.CheckersServer;
 import core.checkers.GameFactory;
 import core.queue.PlayerQueue;
 import core.sessions.SessionServer;
