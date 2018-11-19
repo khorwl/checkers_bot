@@ -16,4 +16,26 @@ public class Turn {
   public Vector to() {
     return to;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null)
+      return false;
+
+    if (this == obj)
+      return true;
+
+    if (obj instanceof Turn) {
+      var other = (Turn)obj;
+
+      return from.equals(other.from) && to.equals(other.to);
+    }
+
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return from.hashCode() ^ to.hashCode();
+  }
 }

@@ -3,10 +3,17 @@ package tests.handlers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import core.checkers.IGame;
+import core.checkers.players.IPlayer;
+import core.checkers.primitives.Turn;
+import core.checkers.primitives.TurnStatus;
 import core.checkers.primitives.Vector;
+import core.sessions.Session;
 import core.sessions.SessionServerException;
+import core.tools.CoreException;
 import core.userdb.User;
 import core.userdb.UserDataBaseException;
 import java.util.Map;
@@ -25,6 +32,9 @@ public class MakeTurnUnitTests extends HandlerTestCase {
   private Vector to;
   private HttpRequest validRequest;
   private User user;
+  private Session session;
+  private IGame game;
+  private Turn turnFromValidRequest;
 
   @BeforeEach
   public void init() {
@@ -33,6 +43,12 @@ public class MakeTurnUnitTests extends HandlerTestCase {
     to = Vector.create(5, 6, 7);
     user = new User("roma");
     validRequest = new HttpRequest("", Map.of("name", user.getName(), "from", from.toString(), "to", to.toString()));
+    turnFromValidRequest = new Turn(from, to);
+    game = mock(IGame.class);
+    when(game.getWhitePlayer()).thenReturn(user);
+    when(game.getBlackPlayer()).thenReturn(mock(IPlayer.class));
+
+    session = new Session("", game);
   }
 
   @Test
@@ -94,7 +110,52 @@ public class MakeTurnUnitTests extends HandlerTestCase {
   }
 
   @Test
-  public void handleRequest_withExistingSession_shouldReturnResultOfGamesMakeTurn() {
+  public void handleRequest_shouldSetNextTurn()
+      throws CoreException, NoThatParameterException {
+    when(userDataBase.getUser(user.getName())).thenReturn(user);
+    when(sessionServer.getSessionWithUser(any())).thenReturn(session);
 
+    handler.handleRequest(validRequest);
+
+    assertEquals(turnFromValidRequest, user.getNextTurn());
+  }
+
+  @Test
+  public void handleRequest_shouldReturnNoTurnIfPerformNextTurnReturnsNoTurn()
+      throws CoreException, NoThatParameterException {
+    when(userDataBase.getUser(user.getName())).thenReturn(user);
+    when(sessionServer.getSessionWithUser(any())).thenReturn(session);
+    when(game.performNextTurn()).thenReturn(TurnStatus.NO_TURN);
+    var expected = Response.createSuccess(TurnStatus.NO_TURN);
+
+    var sut = handler.handleRequest(validRequest);
+
+    assertEquals(expected, sut);
+  }
+
+  @Test
+  public void handleRequest_shouldReturnSuccessIfPerformNextTurnReturnsSuccess()
+      throws CoreException, NoThatParameterException {
+    when(userDataBase.getUser(user.getName())).thenReturn(user);
+    when(sessionServer.getSessionWithUser(any())).thenReturn(session);
+    when(game.performNextTurn()).thenReturn(TurnStatus.SUCCESS);
+    var expected = Response.createSuccess(TurnStatus.SUCCESS);
+
+    var sut = handler.handleRequest(validRequest);
+
+    assertEquals(expected, sut);
+  }
+
+  @Test
+  public void handleRequest_shouldReturnFailIfPerformNextTurnReturnsFail()
+      throws CoreException, NoThatParameterException {
+    when(userDataBase.getUser(user.getName())).thenReturn(user);
+    when(sessionServer.getSessionWithUser(any())).thenReturn(session);
+    when(game.performNextTurn()).thenReturn(TurnStatus.FAIL);
+    var expected = Response.createSuccess(TurnStatus.FAIL);
+
+    var sut = handler.handleRequest(validRequest);
+
+    assertEquals(expected, sut);
   }
 }
