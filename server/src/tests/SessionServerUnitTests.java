@@ -42,7 +42,7 @@ public class SessionServerUnitTests {
 
     var sut = new HashSet<>(server.getSessions());
 
-    assertIterableEquals(expected, sut);
+    assertEquals(expected, sut);
   }
 
   @Test
