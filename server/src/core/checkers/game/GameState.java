@@ -28,4 +28,22 @@ public class GameState {
   public void changeTurnOrderToNext() {
     nextTurnOrder = nextTurnOrder == Color.BLACK ? Color.WHITE : Color.BLACK;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+
+    if (obj == this) {
+      return true;
+    }
+
+    if (obj instanceof GameState) {
+      var other = (GameState) obj;
+      return other.progress == progress && other.nextTurnOrder == nextTurnOrder;
+    }
+
+    return false;
+  }
 }
