@@ -1,32 +1,35 @@
 package server;
 
 import com.sun.net.httpserver.HttpServer;
-import infra.IQuizServer;
+import core.ICheckersServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import server.api.handlers.HandlersLoader;
+import tools.QueryParser;
 
 public class Server {
+  private final QueryParser queryParser;
+  private final ICheckersServer server;
 
-  private IQuizServer quizServer;
+  public Server(ICheckersServer server) {
+    this.server = server;
 
-  public Server(IQuizServer quizServer) {
-    this.quizServer = quizServer;
+    queryParser = new QueryParser();
   }
 
-  public void run(InetSocketAddress addres) throws IOException {
+  public void run(InetSocketAddress address) throws IOException, NoSuchMethodException {
     System.out.println(
-        String.format("Starting server at %s:%s", addres.getHostString(), addres.getPort()));
+        String.format("Starting server at %s:%s", address.getHostString(), address.getPort()));
     System.out.println("Use Ctrl+C to shutdown");
 
-    HttpServer httpServer = HttpServer.create(addres, 0);
+    HttpServer httpServer = HttpServer.create(address, 0);
 
-    httpServer.createContext("/", new HomeHandler(quizServer));
-    httpServer.createContext("/register", new RegisterUserHandler(quizServer));
-    httpServer.createContext("/delete", new DeleteUserHandler(quizServer));
-    httpServer.createContext("/have_questions", new HaveQuestionsHandler(quizServer));
-    httpServer.createContext("/get_question", new GetQuestionHandler(quizServer));
-    httpServer.createContext("/submit", new SubmitAnswerHandler(quizServer));
-    httpServer.createContext("/get_statistic", new GetStatisticHandler(quizServer));
+    var handlers = HandlersLoader.createHandlers(queryParser, server);
+
+    for (var handler : handlers) {
+      httpServer.createContext("/" + handler.getName(), handler);
+    }
+
     httpServer.setExecutor(null);
 
     httpServer.start();
