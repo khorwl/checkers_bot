@@ -13,10 +13,9 @@ public class Server {
   private final ICheckersServer server;
 
   @Inject
-  public Server(ICheckersServer server) {
+  public Server(QueryParser queryParser, ICheckersServer server) {
+    this.queryParser = queryParser;
     this.server = server;
-
-    queryParser = new QueryParser();
   }
 
   public void run(InetSocketAddress address) throws IOException, NoSuchMethodException {
