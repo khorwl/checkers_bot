@@ -1,5 +1,6 @@
 package server;
 
+import com.google.inject.Inject;
 import com.sun.net.httpserver.HttpServer;
 import core.ICheckersServer;
 import java.io.IOException;
@@ -11,6 +12,7 @@ public class Server {
   private final QueryParser queryParser;
   private final ICheckersServer server;
 
+  @Inject
   public Server(ICheckersServer server) {
     this.server = server;
 

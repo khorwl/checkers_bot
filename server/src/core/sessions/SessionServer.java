@@ -1,5 +1,6 @@
 package core.sessions;
 
+import com.google.inject.Inject;
 import core.checkers.game.IGame;
 import core.checkers.IGameFactory;
 import core.checkers.players.EasyAIPlayer;
@@ -16,6 +17,7 @@ public class SessionServer implements ISessionServer {
   private final Map<String, Session> idToSession;
   private final Map<User, String> userToCurrentSessionId;
 
+  @Inject
   public SessionServer(IGameFactory gameFactory) {
     this.gameFactory = gameFactory;
     idToSession = new HashMap<>();
